@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Battle Numérique des NEET</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
+    header { background: #2196F3; color: #fff; padding: 1rem; text-align: center; }
+    main { max-width: 900px; margin: 1rem auto; padding: 1rem; background: #fff; border-radius: 8px; }
+    h1, h2, h3 { margin-top: 0; }
+    .zones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
+    .zone { border-radius: 6px; padding: 0.5rem; font-size: 0.9rem; min-height: 60px; }
+    .zone h3 { margin: 0 0 0.25rem 0; font-size: 0.9rem; }
+    .zone[data-id="clair"] { background: #e3f2fd; }
+    .zone[data-id="doute"] { background: #fff3e0; }
+    .zone[data-id="inconnu"] { background: #f3e5f5; }
+    .zone[data-id="danger"] { background: #ffebee; }
+    .carte { padding: 0.5rem 0.75rem; border-radius: 6px; background: #eceff1; margin-bottom: 0.5rem; cursor: pointer; }
+    .carte strong { display: block; font-size: 0.95rem; }
+    .hidden { display: none; }
+    .controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    button { cursor: pointer; padding: 0.5rem 0.75rem; border-radius: 999px; border: none; background: #2196F3; color: #fff; font-size: 0.9rem; }
+    button.secondary { background: #4DD4D4; color: #000; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .score { font-weight: bold; margin-bottom: 0.5rem; }
+    .section { margin-bottom: 1.5rem; }
+    .badges span { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.8rem; background: #e0f2f1; margin-right: 0.25rem; margin-bottom: 0.25rem; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Battle Numérique des NEET</h1>
+  <p>Teste tes connaissances sur les démarches en ligne et ton image numérique</p>
+</header>
+
+<main>
+  <section class="section">
+    <p><strong>But du jeu :</strong> en équipe, classe les cartes dans les bonnes zones, discute, et découvre de nouvelles choses sur France Travail, la CAF, les impôts, les formations, l’IA et ton image en ligne.</p>
+  </section>
+
+  <section class="section">
+    <div class="controls">
+      <button id="btnMontrerCarte">Tirer une carte</button>
+      <button id="btnBonMove" class="secondary">Bon move / Bad move</button>
+      <button id="btnReset">Réinitialiser</button>
+    </div>
+    <div class="score">Score collectif : <span id="score">0</span> points</div>
+    <div id="carteZone" class="carte hidden"></div>
+  </section>
+
+  <section class="section">
+    <h2>Où tu classes cette carte ?</h2>
+    <p>Clique sur une zone pour dire ce que tu en penses.</p>
+    <div class="zones">
+      <div class="zone" data-id="clair">
+        <h3>C’est clair ✅</h3>
+      </div>
+      <div class="zone" data-id="doute">
+        <h3>J’ai un doute 🤔</h3>
+      </div>
+      <div class="zone" data-id="inconnu">
+        <h3>Je ne connais pas ❓</h3>
+      </div>
+      <div class="zone" data-id="danger">
+        <h3>Danger / arnaque ⚠️</h3>
+      </div>
+    </div>
+    <div id="feedback"></div>
+  </section>
+
+  <section class="section">
+    <h2>Badges à débloquer</h2>
+    <div class="badges" id="badges">
+      <!-- badges dynamiques -->
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Auto-évaluation rapide</h2>
+    <p>Après le jeu, chaque jeune peut se positionner :</p>
+    <ul>
+      <li>Me connecter à mes espaces (France Travail, CAF, Ameli, impots.gouv, CPF) : 😕 / 🙂 / 💪</li>
+      <li>Reconnaître un mail / site suspect : 😕 / 🙂 / 💪</li>
+      <li>Utiliser l’IA pour m’aider (sans faire n’importe quoi) : 😕 / 🙂 / 💪</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+  const cartesQuiz = [
+    { type: 'site', texte: 'France Travail – espace personnel', bonneZone: 'clair' },
+    { type: 'site', texte: 'CAF – Mon Compte', bonneZone: 'clair' },
+    { type: 'site', texte: 'CPAM / Ameli – remboursements santé', bonneZone: 'clair' },
+    { type: 'site', texte: 'impots.gouv – espace particulier', bonneZone: 'clair' },
+    { type: 'site', texte: 'ANTS – titre d’identité et permis', bonneZone: 'clair' },
+    { type: 'site', texte: 'Mon Compte Formation (CPF) – site officiel', bonneZone: 'clair' },
+
+    { type: 'situation', texte: 'Tu dois actualiser ton chômage', bonneZone: 'clair' },
+    { type: 'situation', texte: 'Tu veux voir ton versement APL', bonneZone: 'clair' },
+    { type: 'situation', texte: 'Tu veux voir tes remboursements médecin', bonneZone: 'clair' },
+    { type: 'situation', texte: 'Tu veux préparer une CNI ou un permis', bonneZone: 'clair' },
+
+    { type: 'danger', texte: 'Un SMS “CAF” te demande ton mot de passe', bonneZone: 'danger' },
+    { type: 'danger', texte: 'Un mail “France Travail” te demande ton RIB et ton code', bonneZone: 'danger' },
+    { type: 'danger', texte: 'Un site CPF te propose de “gérer ton compte à ta place” contre tes identifiants', bonneZone: 'danger' }
+  ];
+
+  const cartesMoves = [
+    { type: 'move', texte: 'Je donne mon code CAF à un pote pour qu’il regarde à ma place', bon: false },
+    { type: 'move', texte: 'Je crée une adresse mail avec prénom.nom pour mes démarches', bon: true },
+    { type: 'move', texte: 'Je clique sur tous les liens reçus par SMS “France Travail”', bon: false },
+    { type: 'move', texte: 'Je relis toujours ce que l’IA a écrit avant d’envoyer', bon: true },
+    { type: 'move', texte: 'Je poste des vidéos compromettantes en public pendant que je cherche un job', bon: false },
+    { type: 'move', texte: 'Je mets un mot de passe différent pour mes comptes importants', bon: true }
+  ];
+
+  let modeQuiz = true;
+  let carteCourante = null;
+  let score = 0;
+
+  const carteZone = document.getElementById('carteZone');
+  const feedback = document.getElementById('feedback');
+  const scoreSpan = document.getElementById('score');
+  const badgesDiv = document.getElementById('badges');
+
+  function afficherCarte() {
+    feedback.textContent = '';
+    modeQuiz = true;
+    const idx = Math.floor(Math.random() * cartesQuiz.length);
+    carteCourante = cartesQuiz[idx];
+    carteZone.innerHTML = '<strong>Carte :</strong> ' + carteCourante.texte;
+    carteZone.classList.remove('hidden');
+  }
+
+  function afficherMove() {
+    feedback.textContent = '';
+    modeQuiz = false;
+    const idx = Math.floor(Math.random() * cartesMoves.length);
+    carteCourante = cartesMoves[idx];
+    carteZone.innerHTML = '<strong>Bon move ou bad move ?</strong><br>' + carteCourante.texte;
+    carteZone.classList.remove('hidden');
+  }
+
+  function majScore(points) {
+    score += points;
+    if (score < 0) score = 0;
+    scoreSpan.textContent = score;
+    majBadges();
+  }
+
+  function majBadges() {
+    badgesDiv.innerHTML = '';
+    if (score >= 3) badgesDiv.innerHTML += '<span>Détecteur d’arnaques</span>';
+    if (score >= 6) badgesDiv.innerHTML += '<span>As des démarches en ligne</span>';
+    if (score >= 9) badgesDiv.innerHTML += '<span>Gardien de son image numérique</span>';
+  }
+
+  document.getElementById('btnMontrerCarte').addEventListener('click', afficherCarte);
+  document.getElementById('btnBonMove').addEventListener('click', afficherMove);
+  document.getElementById('btnReset').addEventListener('click', () => {
+    score = 0;
+    scoreSpan.textContent = score;
+    carteZone.classList.add('hidden');
+    feedback.textContent = '';
+    badgesDiv.innerHTML = '';
+  });
+
+  document.querySelectorAll('.zone').forEach(zone => {
+    zone.addEventListener('click', () => {
+      if (!carteCourante) return;
+      if (modeQuiz) {
+        // mode “où tu classes cette carte ?”
+        const choix = zone.getAttribute('data-id');
+        if (choix === carteCourante.bonneZone) {
+          feedback.textContent = '👍 Bonne intuition ! On en parle ensemble.';
+          majScore(1);
+        } else {
+          feedback.textContent = '🤔 Ce n’est pas complètement ça, on clarifie avec le groupe.';
+        }
+      } else {
+        // mode bon move / bad move
+        const choixBon = (zone.getAttribute('data-id') !== 'danger'); // simplifié : danger = mauvais move
+        if (choixBon === carteCourante.bon) {
+          feedback.textContent = '✅ Bon diagnostic. On garde cette pratique.';
+          majScore(1);
+        } else {
+          feedback.textContent = '⚠️ À revoir : on discute pourquoi c’est risqué ou pas.';
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
