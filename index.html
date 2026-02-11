@@ -11,15 +11,19 @@
 <style>
 
 /* =====================
-PALETTE LS4YOU EXACTE
+PALETTE LS4YOU OFFICIELLE
 ===================== */
 :root{
 --red:#E5343A;
 --yellow:#F2B21B;
 --teal:#39A9A5;
---dark:#1a1a2e;
---bg:#fafafa;
+--dark:#1A1A2E;
+--bg:#FAFAFA;
 }
+
+/* =====================
+BASE
+===================== */
 
 body{
 margin:0;
@@ -29,24 +33,25 @@ color:var(--dark);
 }
 
 /* =====================
-HEADER COMPACT
+HEADER SVG PRO (SPLASH MASQUÉ)
 ===================== */
 
-.header{
-padding:28px 20px 14px;
-text-align:center;
+.ls-header{
+width:100%;
+max-width:1200px;
+margin:20px auto 30px;
+overflow:hidden;
+border-radius:22px;
+box-shadow:0 18px 45px rgba(0,0,0,.08);
+background:white;
 }
 
-.logo{
-font-weight:900;
-font-size:clamp(28px,5vw,46px);
-color:var(--red);
-}
-
-.subtitle{
-font-weight:600;
-opacity:.8;
-margin-top:6px;
+.ls-header svg{
+width:100%;
+height:clamp(140px,18vw,190px);
+object-fit:cover;
+object-position:center 35%;
+display:block;
 }
 
 /* =====================
@@ -55,9 +60,7 @@ TITRES LS4YOU GUIDE
 
 .title-ls-main{
 font-weight:900;
-font-size:clamp(26px,7vw,42px);
-line-height:.95;
-letter-spacing:-.8px;
+font-size:clamp(28px,5vw,46px);
 color:var(--red);
 position:relative;
 display:inline-block;
@@ -66,10 +69,10 @@ display:inline-block;
 .title-ls-main::after{
 content:"";
 position:absolute;
-left:-.08em;
-right:-.08em;
-bottom:.08em;
-height:.38em;
+left:-6px;
+right:-6px;
+bottom:6px;
+height:12px;
 background:var(--yellow);
 opacity:.45;
 transform:skewX(-8deg);
@@ -79,9 +82,8 @@ border-radius:4px;
 
 .title-ls-sub{
 font-weight:700;
-font-size:clamp(14px,4vw,22px);
 color:var(--red);
-margin-top:8px;
+margin-top:6px;
 }
 
 /* =====================
@@ -91,7 +93,7 @@ GRID BLOCS
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:16px;
+gap:18px;
 max-width:1100px;
 margin:40px auto;
 padding:0 20px;
@@ -110,12 +112,12 @@ BLOCS
 ===================== */
 
 .block{
-padding:22px;
+padding:24px;
 border-radius:16px;
 cursor:pointer;
 color:white;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
 transition:.25s;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .block:hover{
@@ -124,14 +126,13 @@ transform:translateY(-4px);
 
 .block h3{
 margin:0;
-font-size:20px;
 font-weight:800;
 }
 
 .block p{
 margin:6px 0 0;
-font-size:14px;
 opacity:.9;
+font-size:14px;
 }
 
 .red{background:var(--red);}
@@ -145,36 +146,48 @@ PANEL
 .panel-bg{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.4);
+background:rgba(0,0,0,.5);
 display:none;
 align-items:flex-end;
+z-index:999;
 }
 
-.panel-bg.open{display:flex;}
+.panel-bg.open{
+display:flex;
+}
 
 .panel{
 background:white;
 width:100%;
-max-width:600px;
-border-radius:20px 20px 0 0;
+max-width:620px;
+border-radius:22px 22px 0 0;
 padding:30px;
 max-height:80vh;
 overflow:auto;
 }
 
-.panel h2{
-margin-top:0;
-}
-
 .panel button{
 margin-top:20px;
-padding:14px 20px;
+padding:14px;
 border:none;
 border-radius:10px;
-font-weight:700;
-cursor:pointer;
 background:var(--red);
 color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+/* =====================
+FOOTER VISUEL UE
+===================== */
+
+.ls-footer{
+margin-top:40px;
+}
+
+.ls-footer img{
+width:100%;
+display:block;
 }
 
 </style>
@@ -182,16 +195,27 @@ color:white;
 
 <body>
 
-<header class="header">
-<div class="logo">LS4YOU</div>
-<div class="subtitle">Mon parcours Life Skills</div>
+<!-- HEADER SVG -->
+<header class="ls-header">
+
+<!-- 👉 COLLER TON SVG HEADER ICI -->
+<!-- Exemple placeholder -->
+<svg viewBox="0 0 1200 300">
+<rect width="1200" height="300" fill="#ffffff"/>
+<circle cx="800" cy="180" r="140" fill="#E5343A"/>
+<circle cx="600" cy="220" r="120" fill="#F2B21B"/>
+<circle cx="400" cy="200" r="100" fill="#39A9A5"/>
+</svg>
+
 </header>
 
-<section style="text-align:center;margin-top:20px;">
+<!-- TITRE EXEMPLE -->
+<section style="text-align:center">
 <h2 class="title-ls-main">MA PERSONNALITÉ</h2>
 <div class="title-ls-sub">Votre fonctionnement naturel</div>
 </section>
 
+<!-- BLOCS -->
 <div class="grid">
 
 <div class="block teal" data-id="intro">
@@ -221,7 +245,7 @@ color:white;
 
 <div class="block yellow" data-id="comm">
 <h3>COMMUNIQUER</h3>
-<p>Dire qui je suis</p>
+<p>Pitch + zone confort</p>
 </div>
 
 <div class="block red" data-id="ikigai">
@@ -233,12 +257,20 @@ color:white;
 
 <!-- PANEL -->
 <div class="panel-bg" id="panelBg">
-<div class="panel" id="panel">
+<div class="panel">
 <h2 id="panelTitle"></h2>
 <p id="panelText"></p>
 <button onclick="closePanel()">Fermer</button>
 </div>
 </div>
+
+<!-- FOOTER UE -->
+<footer class="ls-footer">
+
+<!-- 👉 COLLER IMAGE FOOTER ICI -->
+<img src="footer-ue.png" alt="Financement Union Européenne">
+
+</footer>
 
 <script>
 
@@ -269,3 +301,4 @@ document.getElementById("panelBg").classList.remove("open");
 
 </body>
 </html>
+
