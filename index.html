@@ -1,195 +1,271 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Battle Numérique des NEET</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
-    header { background: #2196F3; color: #fff; padding: 1rem; text-align: center; }
-    main { max-width: 900px; margin: 1rem auto; padding: 1rem; background: #fff; border-radius: 8px; }
-    h1, h2, h3 { margin-top: 0; }
-    .zones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
-    .zone { border-radius: 6px; padding: 0.5rem; font-size: 0.9rem; min-height: 60px; }
-    .zone h3 { margin: 0 0 0.25rem 0; font-size: 0.9rem; }
-    .zone[data-id="clair"] { background: #e3f2fd; }
-    .zone[data-id="doute"] { background: #fff3e0; }
-    .zone[data-id="inconnu"] { background: #f3e5f5; }
-    .zone[data-id="danger"] { background: #ffebee; }
-    .carte { padding: 0.5rem 0.75rem; border-radius: 6px; background: #eceff1; margin-bottom: 0.5rem; cursor: pointer; }
-    .carte strong { display: block; font-size: 0.95rem; }
-    .hidden { display: none; }
-    .controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-    button { cursor: pointer; padding: 0.5rem 0.75rem; border-radius: 999px; border: none; background: #2196F3; color: #fff; font-size: 0.9rem; }
-    button.secondary { background: #4DD4D4; color: #000; }
-    button:disabled { opacity: 0.5; cursor: default; }
-    .score { font-weight: bold; margin-bottom: 0.5rem; }
-    .section { margin-bottom: 1.5rem; }
-    .badges span { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.8rem; background: #e0f2f1; margin-right: 0.25rem; margin-bottom: 0.25rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LS4YOU — Parcours Life Skills</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+/* =====================
+PALETTE LS4YOU EXACTE
+===================== */
+:root{
+--red:#E5343A;
+--yellow:#F2B21B;
+--teal:#39A9A5;
+--dark:#1a1a2e;
+--bg:#fafafa;
+}
+
+body{
+margin:0;
+font-family:'DM Sans',sans-serif;
+background:var(--bg);
+color:var(--dark);
+}
+
+/* =====================
+HEADER COMPACT
+===================== */
+
+.header{
+padding:28px 20px 14px;
+text-align:center;
+}
+
+.logo{
+font-weight:900;
+font-size:clamp(28px,5vw,46px);
+color:var(--red);
+}
+
+.subtitle{
+font-weight:600;
+opacity:.8;
+margin-top:6px;
+}
+
+/* =====================
+TITRES LS4YOU GUIDE
+===================== */
+
+.title-ls-main{
+font-weight:900;
+font-size:clamp(26px,7vw,42px);
+line-height:.95;
+letter-spacing:-.8px;
+color:var(--red);
+position:relative;
+display:inline-block;
+}
+
+.title-ls-main::after{
+content:"";
+position:absolute;
+left:-.08em;
+right:-.08em;
+bottom:.08em;
+height:.38em;
+background:var(--yellow);
+opacity:.45;
+transform:skewX(-8deg);
+z-index:-1;
+border-radius:4px;
+}
+
+.title-ls-sub{
+font-weight:700;
+font-size:clamp(14px,4vw,22px);
+color:var(--red);
+margin-top:8px;
+}
+
+/* =====================
+GRID BLOCS
+===================== */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+max-width:1100px;
+margin:40px auto;
+padding:0 20px;
+}
+
+@media(max-width:900px){
+.grid{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:600px){
+.grid{grid-template-columns:1fr;}
+}
+
+/* =====================
+BLOCS
+===================== */
+
+.block{
+padding:22px;
+border-radius:16px;
+cursor:pointer;
+color:white;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+transition:.25s;
+}
+
+.block:hover{
+transform:translateY(-4px);
+}
+
+.block h3{
+margin:0;
+font-size:20px;
+font-weight:800;
+}
+
+.block p{
+margin:6px 0 0;
+font-size:14px;
+opacity:.9;
+}
+
+.red{background:var(--red);}
+.yellow{background:var(--yellow);color:#111;}
+.teal{background:var(--teal);}
+
+/* =====================
+PANEL
+===================== */
+
+.panel-bg{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+display:none;
+align-items:flex-end;
+}
+
+.panel-bg.open{display:flex;}
+
+.panel{
+background:white;
+width:100%;
+max-width:600px;
+border-radius:20px 20px 0 0;
+padding:30px;
+max-height:80vh;
+overflow:auto;
+}
+
+.panel h2{
+margin-top:0;
+}
+
+.panel button{
+margin-top:20px;
+padding:14px 20px;
+border:none;
+border-radius:10px;
+font-weight:700;
+cursor:pointer;
+background:var(--red);
+color:white;
+}
+
+</style>
 </head>
+
 <body>
-<header>
-  <h1>Battle Numérique des NEET</h1>
-  <p>Teste tes connaissances sur les démarches en ligne et ton image numérique</p>
+
+<header class="header">
+<div class="logo">LS4YOU</div>
+<div class="subtitle">Mon parcours Life Skills</div>
 </header>
 
-<main>
-  <section class="section">
-    <p><strong>But du jeu :</strong> en équipe, classe les cartes dans les bonnes zones, discute, et découvre de nouvelles choses sur France Travail, la CAF, les impôts, les formations, l’IA et ton image en ligne.</p>
-  </section>
+<section style="text-align:center;margin-top:20px;">
+<h2 class="title-ls-main">MA PERSONNALITÉ</h2>
+<div class="title-ls-sub">Votre fonctionnement naturel</div>
+</section>
 
-  <section class="section">
-    <div class="controls">
-      <button id="btnMontrerCarte">Tirer une carte</button>
-      <button id="btnBonMove" class="secondary">Bon move / Bad move</button>
-      <button id="btnReset">Réinitialiser</button>
-    </div>
-    <div class="score">Score collectif : <span id="score">0</span> points</div>
-    <div id="carteZone" class="carte hidden"></div>
-  </section>
+<div class="grid">
 
-  <section class="section">
-    <h2>Où tu classes cette carte ?</h2>
-    <p>Clique sur une zone pour dire ce que tu en penses.</p>
-    <div class="zones">
-      <div class="zone" data-id="clair">
-        <h3>C’est clair ✅</h3>
-      </div>
-      <div class="zone" data-id="doute">
-        <h3>J’ai un doute 🤔</h3>
-      </div>
-      <div class="zone" data-id="inconnu">
-        <h3>Je ne connais pas ❓</h3>
-      </div>
-      <div class="zone" data-id="danger">
-        <h3>Danger / arnaque ⚠️</h3>
-      </div>
-    </div>
-    <div id="feedback"></div>
-  </section>
+<div class="block teal" data-id="intro">
+<h3>INTRODUCTION</h3>
+<p>Le parcours Life Skills</p>
+</div>
 
-  <section class="section">
-    <h2>Badges à débloquer</h2>
-    <div class="badges" id="badges">
-      <!-- badges dynamiques -->
-    </div>
-  </section>
+<div class="block red" data-id="personality">
+<h3>MA PERSONNALITÉ</h3>
+<p>Comment je fonctionne</p>
+</div>
 
-  <section class="section">
-    <h2>Auto-évaluation rapide</h2>
-    <p>Après le jeu, chaque jeune peut se positionner :</p>
-    <ul>
-      <li>Me connecter à mes espaces (France Travail, CAF, Ameli, impots.gouv, CPF) : 😕 / 🙂 / 💪</li>
-      <li>Reconnaître un mail / site suspect : 😕 / 🙂 / 💪</li>
-      <li>Utiliser l’IA pour m’aider (sans faire n’importe quoi) : 😕 / 🙂 / 💪</li>
-    </ul>
-  </section>
-</main>
+<div class="block yellow" data-id="values">
+<h3>MES VALEURS</h3>
+<p>Pourquoi j'avance</p>
+</div>
+
+<div class="block teal" data-id="skills">
+<h3>MES COMPÉTENCES</h3>
+<p>Ce que je sais faire</p>
+</div>
+
+<div class="block red" data-id="energy">
+<h3>MON ÉNERGIE</h3>
+<p>Quand je réussis</p>
+</div>
+
+<div class="block yellow" data-id="comm">
+<h3>COMMUNIQUER</h3>
+<p>Dire qui je suis</p>
+</div>
+
+<div class="block red" data-id="ikigai">
+<h3>IKIGAI</h3>
+<p>Ma zone de réussite</p>
+</div>
+
+</div>
+
+<!-- PANEL -->
+<div class="panel-bg" id="panelBg">
+<div class="panel" id="panel">
+<h2 id="panelTitle"></h2>
+<p id="panelText"></p>
+<button onclick="closePanel()">Fermer</button>
+</div>
+</div>
 
 <script>
-  const cartesQuiz = [
-    { type: 'site', texte: 'France Travail – espace personnel', bonneZone: 'clair' },
-    { type: 'site', texte: 'CAF – Mon Compte', bonneZone: 'clair' },
-    { type: 'site', texte: 'CPAM / Ameli – remboursements santé', bonneZone: 'clair' },
-    { type: 'site', texte: 'impots.gouv – espace particulier', bonneZone: 'clair' },
-    { type: 'site', texte: 'ANTS – titre d’identité et permis', bonneZone: 'clair' },
-    { type: 'site', texte: 'Mon Compte Formation (CPF) – site officiel', bonneZone: 'clair' },
 
-    { type: 'situation', texte: 'Tu dois actualiser ton chômage', bonneZone: 'clair' },
-    { type: 'situation', texte: 'Tu veux voir ton versement APL', bonneZone: 'clair' },
-    { type: 'situation', texte: 'Tu veux voir tes remboursements médecin', bonneZone: 'clair' },
-    { type: 'situation', texte: 'Tu veux préparer une CNI ou un permis', bonneZone: 'clair' },
+const content={
+intro:{t:"Introduction",b:"Parcours Life Skills complet"},
+personality:{t:"Ma personnalité",b:"Test MBTI — 16 profils"},
+values:{t:"Mes valeurs",b:"Identifier ce qui compte vraiment"},
+skills:{t:"Mes compétences",b:"Transformer expérience en compétences"},
+energy:{t:"Mon énergie",b:"Optimiser ses moments de performance"},
+comm:{t:"Communiquer",b:"S'affirmer + Pitch + Zone confort"},
+ikigai:{t:"Ikigai",b:"Synthèse globale parcours"}
+};
 
-    { type: 'danger', texte: 'Un SMS “CAF” te demande ton mot de passe', bonneZone: 'danger' },
-    { type: 'danger', texte: 'Un mail “France Travail” te demande ton RIB et ton code', bonneZone: 'danger' },
-    { type: 'danger', texte: 'Un site CPF te propose de “gérer ton compte à ta place” contre tes identifiants', bonneZone: 'danger' }
-  ];
+document.querySelectorAll(".block").forEach(b=>{
+b.addEventListener("click",()=>{
+const d=content[b.dataset.id];
+document.getElementById("panelTitle").innerText=d.t;
+document.getElementById("panelText").innerText=d.b;
+document.getElementById("panelBg").classList.add("open");
+});
+});
 
-  const cartesMoves = [
-    { type: 'move', texte: 'Je donne mon code CAF à un pote pour qu’il regarde à ma place', bon: false },
-    { type: 'move', texte: 'Je crée une adresse mail avec prénom.nom pour mes démarches', bon: true },
-    { type: 'move', texte: 'Je clique sur tous les liens reçus par SMS “France Travail”', bon: false },
-    { type: 'move', texte: 'Je relis toujours ce que l’IA a écrit avant d’envoyer', bon: true },
-    { type: 'move', texte: 'Je poste des vidéos compromettantes en public pendant que je cherche un job', bon: false },
-    { type: 'move', texte: 'Je mets un mot de passe différent pour mes comptes importants', bon: true }
-  ];
+function closePanel(){
+document.getElementById("panelBg").classList.remove("open");
+}
 
-  let modeQuiz = true;
-  let carteCourante = null;
-  let score = 0;
-
-  const carteZone = document.getElementById('carteZone');
-  const feedback = document.getElementById('feedback');
-  const scoreSpan = document.getElementById('score');
-  const badgesDiv = document.getElementById('badges');
-
-  function afficherCarte() {
-    feedback.textContent = '';
-    modeQuiz = true;
-    const idx = Math.floor(Math.random() * cartesQuiz.length);
-    carteCourante = cartesQuiz[idx];
-    carteZone.innerHTML = '<strong>Carte :</strong> ' + carteCourante.texte;
-    carteZone.classList.remove('hidden');
-  }
-
-  function afficherMove() {
-    feedback.textContent = '';
-    modeQuiz = false;
-    const idx = Math.floor(Math.random() * cartesMoves.length);
-    carteCourante = cartesMoves[idx];
-    carteZone.innerHTML = '<strong>Bon move ou bad move ?</strong><br>' + carteCourante.texte;
-    carteZone.classList.remove('hidden');
-  }
-
-  function majScore(points) {
-    score += points;
-    if (score < 0) score = 0;
-    scoreSpan.textContent = score;
-    majBadges();
-  }
-
-  function majBadges() {
-    badgesDiv.innerHTML = '';
-    if (score >= 3) badgesDiv.innerHTML += '<span>Détecteur d’arnaques</span>';
-    if (score >= 6) badgesDiv.innerHTML += '<span>As des démarches en ligne</span>';
-    if (score >= 9) badgesDiv.innerHTML += '<span>Gardien de son image numérique</span>';
-  }
-
-  document.getElementById('btnMontrerCarte').addEventListener('click', afficherCarte);
-  document.getElementById('btnBonMove').addEventListener('click', afficherMove);
-  document.getElementById('btnReset').addEventListener('click', () => {
-    score = 0;
-    scoreSpan.textContent = score;
-    carteZone.classList.add('hidden');
-    feedback.textContent = '';
-    badgesDiv.innerHTML = '';
-  });
-
-  document.querySelectorAll('.zone').forEach(zone => {
-    zone.addEventListener('click', () => {
-      if (!carteCourante) return;
-      if (modeQuiz) {
-        // mode “où tu classes cette carte ?”
-        const choix = zone.getAttribute('data-id');
-        if (choix === carteCourante.bonneZone) {
-          feedback.textContent = '👍 Bonne intuition ! On en parle ensemble.';
-          majScore(1);
-        } else {
-          feedback.textContent = '🤔 Ce n’est pas complètement ça, on clarifie avec le groupe.';
-        }
-      } else {
-        // mode bon move / bad move
-        const choixBon = (zone.getAttribute('data-id') !== 'danger'); // simplifié : danger = mauvais move
-        if (choixBon === carteCourante.bon) {
-          feedback.textContent = '✅ Bon diagnostic. On garde cette pratique.';
-          majScore(1);
-        } else {
-          feedback.textContent = '⚠️ À revoir : on discute pourquoi c’est risqué ou pas.';
-        }
-      }
-    });
-  });
 </script>
+
 </body>
 </html>
