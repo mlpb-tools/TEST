@@ -4,99 +4,101 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LS4YOU — Parcours Life Skills</title>
+<title>MLS4YOU #1 Emploi — Parcours Life Skills</title>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* =====================
-PALETTE LS4YOU OFFICIELLE
-===================== */
-:root{
---red:#E5343A;
---yellow:#F2B21B;
---teal:#39A9A5;
---dark:#1A1A2E;
---bg:#FAFAFA;
-}
-
-/* =====================
-BASE
-===================== */
+/* ================= BASE ================= */
 
 body{
 margin:0;
-font-family:'DM Sans',sans-serif;
-background:var(--bg);
-color:var(--dark);
+background:#ffffff;
+font-family:'Montserrat',sans-serif;
+color:#111;
 }
 
-/* =====================
-HEADER SVG PRO (SPLASH MASQUÉ)
-===================== */
+/* ================= HEADER PRO ================= */
 
+/* HEADER GLOBAL */
 .ls-header{
-width:100%;
-max-width:1200px;
-margin:20px auto 30px;
-overflow:hidden;
-border-radius:22px;
-box-shadow:0 18px 45px rgba(0,0,0,.08);
-background:white;
+  width:100%;
+  max-width:1200px;
+  margin:20px auto 30px;
+  overflow:hidden;
+  border-radius:24px;
+  background:white;
+  box-shadow:0 18px 45px rgba(0,0,0,.08);
+  border:1px solid rgba(0,0,0,.05);
 }
 
-.ls-header svg{
-width:100%;
-height:clamp(140px,18vw,190px);
-object-fit:cover;
-object-position:center 35%;
-display:block;
+/* CONTENEUR SVG */
+.ls-header-svg{
+  position:relative;
+  overflow:hidden;
 }
 
-/* =====================
-TITRES LS4YOU GUIDE
-===================== */
+/* SVG HEADER */
+.ls-header-svg svg{
+  width:100%;
+  
+  height: clamp(200px, 24vw, 260px);
 
-.title-ls-main{
+  display:block;
+
+  object-fit: cover;
+  object-position: center 55%;
+
+  transform: scale(0.92) translateY(-10px);
+}
+
+/* ================= TITRES ================= */
+
+.hero{
+text-align:center;
+padding:10px 20px 20px;
+}
+
+.hero h1{
+font-family:'Nunito',sans-serif;
+font-size:clamp(28px,4vw,48px);
 font-weight:900;
-font-size:clamp(28px,5vw,46px);
-color:var(--red);
+color:#C62828;
+margin:0;
 position:relative;
 display:inline-block;
 }
 
-.title-ls-main::after{
+.hero h1::after{
 content:"";
 position:absolute;
 left:-6px;
 right:-6px;
 bottom:6px;
-height:12px;
-background:var(--yellow);
-opacity:.45;
+height:14px;
+background:#F2B21B;
+opacity:.4;
 transform:skewX(-8deg);
+border-radius:6px;
 z-index:-1;
-border-radius:4px;
 }
 
-.title-ls-sub{
-font-weight:700;
-color:var(--red);
-margin-top:6px;
+.hero p{
+max-width:720px;
+margin:12px auto 0;
+color:#555;
 }
 
-/* =====================
-GRID BLOCS
-===================== */
+/* ================= GRID ================= */
 
 .grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
 max-width:1100px;
 margin:40px auto;
 padding:0 20px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
 }
 
 @media(max-width:900px){
@@ -107,17 +109,19 @@ padding:0 20px;
 .grid{grid-template-columns:1fr;}
 }
 
-/* =====================
-BLOCS
-===================== */
+/* ================= BLOCS ================= */
 
 .block{
-padding:24px;
-border-radius:16px;
-cursor:pointer;
-color:white;
+display:block;
+text-decoration:none;
+background:white;
+border-radius:20px;
+padding:22px;
+border:1px solid rgba(0,0,0,.08);
+box-shadow:0 10px 25px rgba(0,0,0,.07);
 transition:.25s;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+position:relative;
+overflow:hidden;
 }
 
 .block:hover{
@@ -126,68 +130,54 @@ transform:translateY(-4px);
 
 .block h3{
 margin:0;
-font-weight:800;
+font-family:'Nunito';
+font-weight:900;
+color:#C62828;
 }
 
 .block p{
-margin:6px 0 0;
-opacity:.9;
+margin-top:6px;
+color:#555;
 font-size:14px;
 }
 
-.red{background:var(--red);}
-.yellow{background:var(--yellow);color:#111;}
-.teal{background:var(--teal);}
-
-/* =====================
-PANEL
-===================== */
-
-.panel-bg{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.5);
-display:none;
-align-items:flex-end;
-z-index:999;
+/* Bulles LS4YOU */
+.block::before{
+content:"";
+position:absolute;
+width:160px;
+height:160px;
+background:#F2B21B;
+border-radius:50%;
+top:-60px;
+right:-60px;
+opacity:.3;
 }
 
-.panel-bg.open{
-display:flex;
+.block::after{
+content:"";
+position:absolute;
+width:200px;
+height:200px;
+background:#39A9A5;
+border-radius:50%;
+top:-120px;
+right:-100px;
+opacity:.15;
 }
 
-.panel{
-background:white;
+/* ================= FOOTER ================= */
+
+.footer{
+max-width:1100px;
+margin:40px auto;
+padding:0 20px 30px;
+}
+
+.footer img{
 width:100%;
-max-width:620px;
-border-radius:22px 22px 0 0;
-padding:30px;
-max-height:80vh;
-overflow:auto;
-}
-
-.panel button{
-margin-top:20px;
-padding:14px;
-border:none;
-border-radius:10px;
-background:var(--red);
-color:white;
-font-weight:700;
-cursor:pointer;
-}
-
-/* =====================
-FOOTER VISUEL UE
-===================== */
-
-.ls-footer{
-margin-top:40px;
-}
-
-.ls-footer img{
-width:100%;
-display:block;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
 
 </style>
@@ -195,109 +185,78 @@ display:block;
 
 <body>
 
-<!-- HEADER SVG -->
-<header class="ls-header">
+<!-- ================= HEADER SVG ================= -->
 
-<!-- 👉 COLLER TON SVG HEADER ICI -->
-<!-- Exemple placeholder -->
+<header class="ls-header">
+<div class="ls-header-svg">
+
+<!-- 👉 REMPLACE PAR TON SVG HEADER -->
 <svg viewBox="0 0 1200 300">
 <rect width="1200" height="300" fill="#ffffff"/>
-<circle cx="800" cy="180" r="140" fill="#E5343A"/>
-<circle cx="600" cy="220" r="120" fill="#F2B21B"/>
-<circle cx="400" cy="200" r="100" fill="#39A9A5"/>
+<circle cx="850" cy="160" r="140" fill="#C62828"/>
+<circle cx="650" cy="210" r="120" fill="#F2B21B"/>
+<circle cx="420" cy="200" r="100" fill="#39A9A5"/>
 </svg>
 
+</div>
 </header>
 
-<!-- TITRE EXEMPLE -->
-<section style="text-align:center">
-<h2 class="title-ls-main">MA PERSONNALITÉ</h2>
-<div class="title-ls-sub">Votre fonctionnement naturel</div>
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+<h1>MLS4YOU #1 Emploi</h1>
+<p>Construis ton parcours d’insertion en assemblant les pièces clés : personnalité, valeurs, compétences, énergie, communication et Ikigai.</p>
 </section>
 
-<!-- BLOCS -->
-<div class="grid">
+<!-- ================= BLOCS ================= -->
 
-<div class="block teal" data-id="intro">
+<section class="grid">
+
+<a class="block" href="#">
 <h3>INTRODUCTION</h3>
-<p>Le parcours Life Skills</p>
-</div>
+<p>Découvrir le parcours Life Skills</p>
+</a>
 
-<div class="block red" data-id="personality">
+<a class="block" href="#">
 <h3>MA PERSONNALITÉ</h3>
-<p>Comment je fonctionne</p>
-</div>
+<p>Comprendre mon fonctionnement naturel</p>
+</a>
 
-<div class="block yellow" data-id="values">
+<a class="block" href="#">
 <h3>MES VALEURS</h3>
-<p>Pourquoi j'avance</p>
-</div>
+<p>Identifier ce qui me motive vraiment</p>
+</a>
 
-<div class="block teal" data-id="skills">
+<a class="block" href="#">
 <h3>MES COMPÉTENCES</h3>
-<p>Ce que je sais faire</p>
-</div>
+<p>Valoriser ce que je sais déjà faire</p>
+</a>
 
-<div class="block red" data-id="energy">
+<a class="block" href="#">
 <h3>MON ÉNERGIE</h3>
-<p>Quand je réussis</p>
-</div>
+<p>Identifier mes moments de performance</p>
+</a>
 
-<div class="block yellow" data-id="comm">
+<a class="block" href="#">
 <h3>COMMUNIQUER</h3>
-<p>Pitch + zone confort</p>
-</div>
+<p>S’affirmer, pitch et zone de confort</p>
+</a>
 
-<div class="block red" data-id="ikigai">
-<h3>IKIGAI</h3>
-<p>Ma zone de réussite</p>
-</div>
+<a class="block" href="#">
+<h3>MON IKIGAI</h3>
+<p>Ma zone de réussite globale</p>
+</a>
 
-</div>
+</section>
 
-<!-- PANEL -->
-<div class="panel-bg" id="panelBg">
-<div class="panel">
-<h2 id="panelTitle"></h2>
-<p id="panelText"></p>
-<button onclick="closePanel()">Fermer</button>
-</div>
-</div>
+<!-- ================= FOOTER ================= -->
 
-<!-- FOOTER UE -->
-<footer class="ls-footer">
+<footer class="footer">
 
-<!-- 👉 COLLER IMAGE FOOTER ICI -->
+<!-- 👉 REMPLACE PAR TON IMAGE FOOTER UE -->
 <img src="footer-ue.png" alt="Financement Union Européenne">
 
 </footer>
-
-<script>
-
-const content={
-intro:{t:"Introduction",b:"Parcours Life Skills complet"},
-personality:{t:"Ma personnalité",b:"Test MBTI — 16 profils"},
-values:{t:"Mes valeurs",b:"Identifier ce qui compte vraiment"},
-skills:{t:"Mes compétences",b:"Transformer expérience en compétences"},
-energy:{t:"Mon énergie",b:"Optimiser ses moments de performance"},
-comm:{t:"Communiquer",b:"S'affirmer + Pitch + Zone confort"},
-ikigai:{t:"Ikigai",b:"Synthèse globale parcours"}
-};
-
-document.querySelectorAll(".block").forEach(b=>{
-b.addEventListener("click",()=>{
-const d=content[b.dataset.id];
-document.getElementById("panelTitle").innerText=d.t;
-document.getElementById("panelText").innerText=d.b;
-document.getElementById("panelBg").classList.add("open");
-});
-});
-
-function closePanel(){
-document.getElementById("panelBg").classList.remove("open");
-}
-
-</script>
 
 </body>
 </html>
