@@ -1,263 +1,833 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MLS4YOU #1 — Emploi</title>
 
-<title>MLS4YOU #1 Emploi — Parcours Life Skills</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --red:#C62828;
+      --yellow:#FFD54F;
+      --turq:#4DD0E1;
+      --mint:#B2F2E5;
+      --orange:#FFB74D;
 
-<style>
+      --bg:#ffffff;
+      --ink:#141518;
+      --muted:rgba(20,21,24,.72);
+      --line:rgba(20,21,24,.12);
 
-/* ================= BASE ================= */
+      --r-xl:22px;
+      --r-lg:18px;
+      --r-md:14px;
 
-body{
-margin:0;
-background:#ffffff;
-font-family:'Montserrat',sans-serif;
-color:#111;
-}
+      --shadow: 0 12px 26px rgba(20,21,24,.12);
+      --shadow2: 0 18px 40px rgba(20,21,24,.14);
 
-/* ================= HEADER PRO ================= */
+      --max: 1080px;
 
-/* HEADER GLOBAL */
-.ls-header{
-  width:100%;
-  max-width:1200px;
-  margin:20px auto 30px;
-  overflow:hidden;
-  border-radius:24px;
-  background:white;
-  box-shadow:0 18px 45px rgba(0,0,0,.08);
-  border:1px solid rgba(0,0,0,.05);
-}
+      --ease: cubic-bezier(.22,1,.36,1);
+    }
 
-/* CONTENEUR SVG */
-.ls-header-svg{
-  position:relative;
-  overflow:hidden;
-}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x:hidden;
+    }
 
-/* SVG HEADER */
-.ls-header-svg svg{
-  width:100%;
-  
-  height: clamp(200px, 24vw, 260px);
+    /* =======================
+       BACKGROUND (puzzle vibe)
+       ======================= */
+    .bg{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        radial-gradient(120px 120px at 10% 12%, color-mix(in srgb, var(--turq) 18%, white) 0 70%, transparent 72%),
+        radial-gradient(160px 160px at 92% 18%, color-mix(in srgb, var(--yellow) 22%, white) 0 70%, transparent 72%),
+        radial-gradient(180px 180px at 86% 88%, color-mix(in srgb, var(--red) 16%, white) 0 70%, transparent 72%),
+        radial-gradient(170px 170px at 14% 86%, color-mix(in srgb, var(--orange) 18%, white) 0 70%, transparent 72%),
+        linear-gradient(#fff, #fff);
+    }
+    .dots{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      opacity:.12;
+      background-image: radial-gradient(circle, var(--red) 1.2px, transparent 1.8px);
+      background-size: 14px 14px;
+      background-position: 8px 6px;
+      filter: blur(.2px);
+    }
 
-  display:block;
+    /* Floating bubbles */
+    .float{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      overflow:hidden;
+    }
+    .b{
+      position:absolute;
+      width: clamp(32px, 3.2vw, 56px);
+      height: clamp(32px, 3.2vw, 56px);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--turq) 18%, white);
+      border: 1px solid rgba(20,21,24,.06);
+      box-shadow: 0 10px 24px rgba(20,21,24,.06);
+      transform: translate3d(0,0,0);
+      animation: drift 11s var(--ease) infinite;
+      opacity:.9;
+    }
+    .b.y{ background: color-mix(in srgb, var(--yellow) 22%, white); animation-duration: 13s; }
+    .b.r{ background: color-mix(in srgb, var(--red) 16%, white); animation-duration: 15s; }
+    .b.o{ background: color-mix(in srgb, var(--orange) 18%, white); animation-duration: 14s; }
 
-  object-fit: cover;
-  object-position: center 55%;
+    @keyframes drift{
+      0%{ transform: translate3d(0,0,0) }
+      50%{ transform: translate3d(0,-18px,0) }
+      100%{ transform: translate3d(0,0,0) }
+    }
 
-  transform: scale(0.92) translateY(-10px);
-}
+    @media (prefers-reduced-motion: reduce){
+      .b{animation:none}
+      *{scroll-behavior:auto}
+    }
 
-/* ================= TITRES ================= */
+    /* =======================
+       LAYOUT
+       ======================= */
+    .wrap{
+      position:relative;
+      z-index:1;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+    }
 
-.hero{
-text-align:center;
-padding:10px 20px 20px;
-}
+    /* =======================
+       HEADER (dézoom + contain)
+       ======================= */
+    .hero{
+      border-radius: var(--r-xl);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      background: #fff;
+    }
+    .hero-media{
+      width:100%;
+      background: #fff;
+      padding: 10px 12px;
+    }
+    .hero-media img{
+      width:100%;
+      height: clamp(120px, 16vw, 190px); /* le "dézoom" */
+      object-fit: contain;               /* IMPORTANT: ne croppe pas -> logos visibles */
+      display:block;
+    }
 
-.hero h1{
-font-family:'Nunito',sans-serif;
-font-size:clamp(28px,4vw,48px);
-font-weight:900;
-color:#C62828;
-margin:0;
-position:relative;
-display:inline-block;
-}
+    .hero-body{
+      padding: 12px 14px 16px;
+      position:relative;
+    }
 
-.hero h1::after{
-content:"";
-position:absolute;
-left:-6px;
-right:-6px;
-bottom:6px;
-height:14px;
-background:#F2B21B;
-opacity:.4;
-transform:skewX(-8deg);
-border-radius:6px;
-z-index:-1;
-}
+    /* frise capsules en bas */
+    .caps{
+      height: 16px;
+      border-radius: 0 0 var(--r-xl) var(--r-xl);
+      background:
+        radial-gradient(circle at 10px 8px, var(--turq) 0 6px, transparent 7px) 0 0 / 24px 16px repeat-x,
+        radial-gradient(circle at 10px 8px, var(--yellow) 0 6px, transparent 7px) 12px 0 / 24px 16px repeat-x,
+        radial-gradient(circle at 10px 8px, var(--red) 0 6px, transparent 7px) 6px 0 / 24px 16px repeat-x;
+      opacity:.95;
+    }
 
-.hero p{
-max-width:720px;
-margin:12px auto 0;
-color:#555;
-}
+    .title{
+      margin: 6px 0 8px;
+      font-family: "Baloo 2", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(26px, 4.2vw, 44px);
+      line-height: 1.05;
+      color: var(--red);
+      position:relative;
+      display:inline-block;
+    }
+    /* highlight jaune discret sous titre */
+    .title::after{
+      content:"";
+      position:absolute;
+      left:-6px; right:-6px;
+      bottom: 4px;
+      height: 10px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--yellow) 70%, white);
+      opacity:.55;
+      transform: skewX(-8deg);
+      z-index:-1;
+    }
 
-/* ================= GRID ================= */
+    .subtitle{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      max-width: 75ch;
+    }
 
-.grid{
-max-width:1100px;
-margin:40px auto;
-padding:0 20px;
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-}
+    .pills{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(20,21,24,.10);
+      background: rgba(255,255,255,.92);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      color: rgba(20,21,24,.86);
+      box-shadow: 0 10px 22px rgba(20,21,24,.06);
+    }
+    .dot{ width:9px; height:9px; border-radius:999px; }
+    .d-t{ background: var(--turq); }
+    .d-y{ background: var(--yellow); }
+    .d-r{ background: var(--red); }
+    .d-o{ background: var(--orange); }
 
-@media(max-width:900px){
-.grid{grid-template-columns:repeat(2,1fr);}
-}
+    /* =======================
+       GRID (7 blocs)
+       ======================= */
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px){
+      .grid{ grid-template-columns: 1fr; }
+    }
 
-@media(max-width:600px){
-.grid{grid-template-columns:1fr;}
-}
+    .card{
+      text-decoration:none;
+      color: inherit;
+      border-radius: var(--r-xl);
+      border: 1px solid rgba(20,21,24,.12);
+      box-shadow: var(--shadow);
+      background: #fff;
+      padding: 14px 14px;
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      position:relative;
+      overflow:hidden;
+      transform: translate3d(0,0,0);
+      transition: transform .18s var(--ease), box-shadow .18s var(--ease), border-color .18s var(--ease);
+    }
 
-/* ================= BLOCS ================= */
+    .card::before{
+      content:"";
+      position:absolute; inset:-1px;
+      background:
+        radial-gradient(circle at 18% 28%, rgba(255,213,79,.24), transparent 58%),
+        radial-gradient(circle at 82% 20%, rgba(77,208,225,.18), transparent 55%),
+        radial-gradient(circle at 72% 86%, rgba(198,40,40,.14), transparent 62%);
+      opacity:.95;
+      pointer-events:none;
+    }
 
-.block{
-display:block;
-text-decoration:none;
-background:white;
-border-radius:20px;
-padding:22px;
-border:1px solid rgba(0,0,0,.08);
-box-shadow:0 10px 25px rgba(0,0,0,.07);
-transition:.25s;
-position:relative;
-overflow:hidden;
-}
+    .card:hover{
+      transform: translateY(-3px);
+      box-shadow: var(--shadow2);
+      border-color: rgba(20,21,24,.18);
+    }
+    .card:active{ transform: translateY(-1px); }
 
-.block:hover{
-transform:translateY(-4px);
-}
+    /* Focus accessibilité */
+    .card:focus-visible{
+      outline: 3px solid color-mix(in srgb, var(--turq) 55%, white);
+      outline-offset: 3px;
+    }
 
-.block h3{
-margin:0;
-font-family:'Nunito';
-font-weight:900;
-color:#C62828;
-}
+    .num{
+      flex:0 0 auto;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:"Baloo 2", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      border: 1px solid rgba(20,21,24,.12);
+      box-shadow: 0 10px 22px rgba(20,21,24,.08);
+      background: rgba(255,255,255,.92);
+      position:relative;
+      z-index:1;
+    }
 
-.block p{
-margin-top:6px;
-color:#555;
-font-size:14px;
-}
+    .meta{
+      position:relative;
+      z-index:1;
+      min-width:0;
+    }
 
-/* Bulles LS4YOU */
-.block::before{
-content:"";
-position:absolute;
-width:160px;
-height:160px;
-background:#F2B21B;
-border-radius:50%;
-top:-60px;
-right:-60px;
-opacity:.3;
-}
+    .h{
+      margin:0;
+      font-family:"Baloo 2", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 1.12;
+      color: var(--ink);
+      display:inline-block;
+      position:relative;
+    }
+    /* Highlight jaune discret sous titres */
+    .h::after{
+      content:"";
+      position:absolute;
+      left:-4px; right:-4px;
+      bottom: 2px;
+      height: 8px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--yellow) 70%, white);
+      opacity:.45;
+      transform: skewX(-8deg);
+      z-index:-1;
+    }
 
-.block::after{
-content:"";
-position:absolute;
-width:200px;
-height:200px;
-background:#39A9A5;
-border-radius:50%;
-top:-120px;
-right:-100px;
-opacity:.15;
-}
+    .p{
+      margin: 6px 0 0;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: rgba(20,21,24,.72);
+      display:-webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
 
-/* ================= FOOTER ================= */
+    .tag{
+      margin-top: 8px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(20,21,24,.10);
+      background: rgba(255,255,255,.92);
+      font-size: 11px;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(20,21,24,.06);
+    }
+    .kdot{ width:9px; height:9px; border-radius:999px; }
 
-.footer{
-max-width:1100px;
-margin:40px auto;
-padding:0 20px 30px;
-}
+    /* Color accents */
+    .c1 .kdot{ background: var(--turq); }
+    .c2 .kdot{ background: var(--red); }
+    .c3 .kdot{ background: var(--yellow); }
+    .c4 .kdot{ background: var(--mint); }
+    .c5 .kdot{ background: var(--orange); }
+    .c6 .kdot{ background: var(--yellow); }
+    .c7 .kdot{ background: var(--red); }
 
-.footer img{
-width:100%;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,.1);
-}
+    /* Ikigai: full width */
+    .c7{ grid-column: 1 / -1; }
+    @media (max-width: 560px){
+      .c7{ grid-column:auto; }
+    }
 
-</style>
+    /* =======================
+       PANELS (CSS only :target)
+       ======================= */
+    .panel{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      display:none;
+      padding: 18px 14px;
+      background: rgba(255,255,255,.84);
+      backdrop-filter: blur(14px);
+    }
+    .panel:target{
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+    }
+
+    .sheet{
+      width: min(900px, 100%);
+      max-height: 84vh;
+      overflow:auto;
+      border-radius: 22px 22px 18px 18px;
+      background: rgba(255,255,255,.98);
+      border: 2px solid rgba(20,21,24,.14);
+      box-shadow: 0 22px 70px rgba(20,21,24,.18);
+      position:relative;
+    }
+    .handle{
+      width: 44px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(20,21,24,.14);
+      margin: 10px auto 0;
+    }
+
+    .sheet-head{
+      padding: 14px 16px 8px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(20,21,24,.08);
+    }
+
+    .sheet-title h2{
+      margin:0;
+      font-family:"Baloo 2", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.12;
+      color: var(--ink);
+      display:inline-block;
+      position:relative;
+    }
+    .sheet-title h2::after{
+      content:"";
+      position:absolute;
+      left:-6px; right:-6px;
+      bottom: 2px;
+      height: 9px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--yellow) 70%, white);
+      opacity:.48;
+      transform: skewX(-8deg);
+      z-index:-1;
+    }
+
+    .sheet-title p{
+      margin: 7px 0 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(20,21,24,.74);
+      max-width: 70ch;
+    }
+
+    .close{
+      flex:0 0 auto;
+      text-decoration:none;
+      font-weight: 900;
+      font-size: 14px;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 9px 12px;
+      border: 1px solid rgba(20,21,24,.14);
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 10px 18px rgba(20,21,24,.08);
+      white-space:nowrap;
+    }
+    .close:focus-visible{
+      outline: 3px solid color-mix(in srgb, var(--turq) 55%, white);
+      outline-offset: 3px;
+    }
+
+    .sheet-body{
+      padding: 12px 16px 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(20,21,24,.78);
+    }
+    .sheet-body strong{ color: var(--ink); }
+    .sheet-body ul{ margin:10px 0 0; padding:0; list-style:none; }
+    .sheet-body li{
+      padding: 8px 0 8px 14px;
+      border-bottom: 1px solid rgba(20,21,24,.06);
+      position:relative;
+      font-size: 13.5px;
+    }
+    .sheet-body li::before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius: 2px;
+      background: var(--turq);
+      position:absolute;
+      left:0;
+      top: 16px;
+    }
+
+    .actions{
+      padding: 0 16px 16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight: 900;
+      border: 2px solid rgba(20,21,24,.14);
+      box-shadow: 0 12px 24px rgba(20,21,24,.08);
+      background: rgba(255,255,255,.98);
+      color: var(--ink);
+      flex: 1 1 240px;
+      min-width: 220px;
+      transition: transform .16s var(--ease), filter .16s var(--ease);
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0); }
+
+    .btn-primary{
+      background: var(--red);
+      color: #fff;
+      border-color: rgba(20,21,24,.18);
+    }
+    .btn-primary:hover{ filter: brightness(1.05); }
+
+    /* =======================
+       FOOTER (image)
+       ======================= */
+    .footer{
+      margin-top: 14px;
+      border-radius: var(--r-xl);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      background:#fff;
+    }
+    .footer img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+  </style>
 </head>
 
-<body>
+<body id="top">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="dots" aria-hidden="true"></div>
 
-<!-- ================= HEADER SVG ================= -->
+  <div class="float" aria-hidden="true">
+    <div class="b" style="left:6%; top:22%"></div>
+    <div class="b y" style="left:88%; top:26%"></div>
+    <div class="b r" style="left:78%; top:78%"></div>
+    <div class="b o" style="left:12%; top:80%"></div>
+    <div class="b" style="left:48%; top:12%"></div>
+  </div>
 
-<header class="ls-header">
-<div class="ls-header-svg">
+  <main class="wrap">
 
-<!-- 👉 REMPLACE PAR TON SVG HEADER -->
-<svg viewBox="0 0 1200 300">
-<rect width="1200" height="300" fill="#ffffff"/>
-<circle cx="850" cy="160" r="140" fill="#C62828"/>
-<circle cx="650" cy="210" r="120" fill="#F2B21B"/>
-<circle cx="420" cy="200" r="100" fill="#39A9A5"/>
-</svg>
+    <!-- HEADER -->
+    <section class="hero" aria-label="Header">
+      <div class="hero-media">
+        <!-- Mets ton SVG dans le repo : assets/header.svg -->
+        <img src="assets/header.svg" alt="LS4YOU + Mission Locale Pays Basque — Header" />
+      </div>
 
-</div>
-</header>
+      <div class="hero-body">
+        <h1 class="title">MLS4YOU #1 — Emploi</h1>
+        <p class="subtitle">
+          Cet outil s’inscrit dans un parcours structuré de développement des Life Skills dédié aux jeunes accompagnés en Missions Locales.
+          Clique sur une carte pour ouvrir l’étape.
+        </p>
 
-<!-- ================= HERO ================= -->
+        <div class="pills" aria-label="Repères">
+          <span class="pill"><span class="dot d-t"></span>COMMENT</span>
+          <span class="pill"><span class="dot d-y"></span>POURQUOI</span>
+          <span class="pill"><span class="dot d-o"></span>QUAND</span>
+          <span class="pill"><span class="dot d-r"></span>SYNTHÈSE</span>
+        </div>
+      </div>
 
-<section class="hero">
-<h1>MLS4YOU #1 Emploi</h1>
-<p>Construis ton parcours d’insertion en assemblant les pièces clés : personnalité, valeurs, compétences, énergie, communication et Ikigai.</p>
-</section>
+      <div class="caps" aria-hidden="true"></div>
+    </section>
 
-<!-- ================= BLOCS ================= -->
+    <!-- GRID -->
+    <section class="grid" aria-label="Parcours">
 
-<section class="grid">
+      <a class="card c1" href="#p-intro">
+        <div class="num">1</div>
+        <div class="meta">
+          <h3 class="h">INTRODUCTION</h3>
+          <p class="p">7 modules complémentaires pour structurer ton parcours d’insertion.</p>
+          <span class="tag"><span class="kdot"></span>Démarrer ici</span>
+        </div>
+      </a>
 
-<a class="block" href="#">
-<h3>INTRODUCTION</h3>
-<p>Découvrir le parcours Life Skills</p>
-</a>
+      <a class="card c2" href="#p-pers">
+        <div class="num">2</div>
+        <div class="meta">
+          <h3 class="h">MA PERSONNALITÉ</h3>
+          <p class="p">Votre fonctionnement naturel (MBTI) : préférences, forces et points de vigilance.</p>
+          <span class="tag"><span class="kdot"></span>16 profils</span>
+        </div>
+      </a>
 
-<a class="block" href="#">
-<h3>MA PERSONNALITÉ</h3>
-<p>Comprendre mon fonctionnement naturel</p>
-</a>
+      <a class="card c3" href="#p-val">
+        <div class="num">3</div>
+        <div class="meta">
+          <h3 class="h">MES VALEURS & OBJECTIFS</h3>
+          <p class="p">Vos moteurs profonds + vos priorités actionnables.</p>
+          <span class="tag"><span class="kdot"></span>Pourquoi + quoi</span>
+        </div>
+      </a>
 
-<a class="block" href="#">
-<h3>MES VALEURS</h3>
-<p>Identifier ce qui me motive vraiment</p>
-</a>
+      <a class="card c4" href="#p-skill">
+        <div class="num">4</div>
+        <div class="meta">
+          <h3 class="h">MES COMPÉTENCES</h3>
+          <p class="p">Vie perso, loisirs, jobs courts, galères… tout peut devenir compétence.</p>
+          <span class="tag"><span class="kdot"></span>Ce que je maîtrise</span>
+        </div>
+      </a>
 
-<a class="block" href="#">
-<h3>MES COMPÉTENCES</h3>
-<p>Valoriser ce que je sais déjà faire</p>
-</a>
+      <a class="card c5" href="#p-energy">
+        <div class="num">5</div>
+        <div class="meta">
+          <h3 class="h">MON ÉNERGIE</h3>
+          <p class="p">Préserver ton énergie = condition de réussite dans la recherche d’emploi.</p>
+          <span class="tag"><span class="kdot"></span>Rythme</span>
+        </div>
+      </a>
 
-<a class="block" href="#">
-<h3>MON ÉNERGIE</h3>
-<p>Identifier mes moments de performance</p>
-</a>
+      <a class="card c6" href="#p-comm">
+        <div class="num">6</div>
+        <div class="meta">
+          <h3 class="h">COMMUNIQUER</h3>
+          <p class="p">S’Affirmer → Pitch Star → Zone de confort : impact + progression.</p>
+          <span class="tag"><span class="kdot"></span>Se présenter</span>
+        </div>
+      </a>
 
-<a class="block" href="#">
-<h3>COMMUNIQUER</h3>
-<p>S’affirmer, pitch et zone de confort</p>
-</a>
+      <a class="card c7" href="#p-iki">
+        <div class="num">✦</div>
+        <div class="meta">
+          <h3 class="h">MON IKIGAI — SYNTHÈSE</h3>
+          <p class="p">Assembler personnalité, valeurs, compétences et objectifs pour clarifier ton projet.</p>
+          <span class="tag"><span class="kdot"></span>Conclusion</span>
+        </div>
+      </a>
 
-<a class="block" href="#">
-<h3>MON IKIGAI</h3>
-<p>Ma zone de réussite globale</p>
-</a>
+    </section>
 
-</section>
+    <!-- FOOTER IMAGE -->
+    <section class="footer" aria-label="Footer">
+      <!-- Mets ton image dans le repo : assets/footer.png -->
+      <img src="assets/footer.png" alt="Co-funded by the European Union — Footer" />
+    </section>
 
-<!-- ================= FOOTER ================= -->
+  </main>
 
-<footer class="footer">
+  <!-- PANELS -->
 
-<!-- 👉 REMPLACE PAR TON IMAGE FOOTER UE -->
-<img src="footer-ue.png" alt="Financement Union Européenne">
+  <section id="p-intro" class="panel" aria-label="Introduction">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <h2>Introduction</h2>
+          <p>Le parcours Life Skills : 7 modules qui tracent progressivement votre parcours d’insertion.</p>
+        </div>
+        <a class="close" href="#top">Fermer ✕</a>
+      </div>
+      <div class="sheet-body">
+        <p>
+          Cet outil s’inscrit dans un parcours structuré de développement des Life Skills dédié aux jeunes accompagnés en Missions Locales.
+          Il articule sept modules complémentaires qui tracent progressivement votre parcours d’insertion personnalisé :
+        </p>
+        <ul>
+          <li><strong>Personnalité (16 Profils)</strong> → Votre fonctionnement naturel</li>
+          <li><strong>Valeurs</strong> → Vos moteurs de motivation</li>
+          <li><strong>Objectifs ABC</strong> → Vos priorités actionnables</li>
+          <li><strong>Compétences situationnelles</strong> → Vos forces validées par l’expérience</li>
+          <li><strong>Énergie</strong> → Vos moments de performance optimale</li>
+          <li><strong>Communiquer</strong> → Votre prise de parole + expérimentation</li>
+          <li><strong>Ikigai</strong> → Synthèse de votre zone de réussite</li>
+        </ul>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#p-pers">Étape suivante : Personnalité →</a>
+      </div>
+    </div>
+  </section>
 
-</footer>
+  <section id="p-pers" class="panel" aria-label="Ma personnalité">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <h2>Ma personnalité — Votre fonctionnement naturel</h2>
+          <p>La personnalité = vos tendances comportementales : réagir, communiquer, traiter l’information.</p>
+        </div>
+        <a class="close" href="#top">Fermer ✕</a>
+      </div>
+      <div class="sheet-body">
+        <p>
+          Faire un travail en phase avec son tempérament réduit la fatigue nerveuse.
+          L’objectif : utiliser ses traits naturels (ex: rigueur, réactivité) comme des compétences.
+        </p>
+        <p>
+          Pour analyser ce fonctionnement, nous utilisons le MBTI : outil de référence en entreprise.
+          Il ne mesure pas votre intelligence, mais vos préférences.
+        </p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/16perso/" target="_blank" rel="noopener">Faire le test →</a>
+        <a class="btn" href="#p-val">Étape suivante : Valeurs →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-val" class="panel" aria-label="Mes valeurs & objectifs">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <h2>Mes valeurs & objectifs</h2>
+          <p>Votre personnalité = le COMMENT. Vos valeurs = le POURQUOI. Vos objectifs = ce que vous priorisez.</p>
+        </div>
+        <a class="close" href="#top">Fermer ✕</a>
+      </div>
+      <div class="sheet-body">
+        <p>
+          Une valeur est un principe ou une conviction profonde qui guide vos comportements, décisions et jugements.
+          Elle donne du sens à vos actions.
+        </p>
+        <ul>
+          <li><strong>Motivation</strong> : vous engagez-vous quand le travail correspond à vos valeurs ?</li>
+          <li><strong>Satisfaction</strong> : êtes-vous épanoui dans un environnement qui les respecte ?</li>
+          <li><strong>Choix métiers</strong> : orientez-vous vers des secteurs alignés ?</li>
+        </ul>
+        <p><strong>Vos valeurs prioritaires orientent directement vos objectifs professionnels.</strong></p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/mes-valeurs/" target="_blank" rel="noopener">Mes valeurs →</a>
+        <a class="btn" href="#p-skill">Étape suivante : Compétences →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-skill" class="panel" aria-label="Mes compétences">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <h2>Mes compétences</h2>
+          <p>Une compétence = mobiliser une ressource pour résoudre un problème.</p>
+        </div>
+        <a class="close" href="#top">Fermer ✕</a>
+      </div>
+      <div class="sheet-body">
+        <p>Deux facettes :</p>
+        <ul>
+          <li><strong>🛠️ Savoir-faire</strong> : ce que vous avez appris.</li>
+          <li><strong>🧠 Savoir-être</strong> : votre manière d’agir.</li>
+        </ul>
+        <p><strong>Idée reçue</strong> : “pas de diplôme = pas de compétences” → c’est faux.</p>
+        <p>Vie perso · Loisirs · Jobs courts · Galères · Bénévolat → tout peut devenir compétence.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/mes-competences/" target="_blank" rel="noopener">Mes compétences →</a>
+        <a class="btn" href="#p-energy">Étape suivante : Énergie →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-energy" class="panel" aria-label="Mon énergie">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <h2>Mon énergie</h2>
+          <p>Construire son avenir demande une énergie physique et mentale importante.</p>
+        </div>
+        <a class="close" href="#top">Fermer ✕</a>
+      </div>
+      <div class="sheet-body">
+        <p>
+          Le risque : s’épuiser, perdre sa motivation ou perdre confiance.
+          Prendre soin de soi n’est pas un luxe, c’est une condition de réussite.
+        </p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/Energie/" target="_blank" rel="noopener">Énergie →</a>
+        <a class="btn" href="#p-comm">Étape suivante : Communiquer →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-comm" class="panel" aria-label="Communiquer">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <h2>Communiquer</h2>
+          <p>S’Affirmer → Pitch Star → Zone de confort : se présenter + progresser par l’action.</p>
+        </div>
+        <a class="close" href="#top">Fermer ✕</a>
+      </div>
+      <div class="sheet-body">
+        <ul>
+          <li><strong>S’Affirmer</strong> : dire qui je suis avec clarté et confiance.</li>
+          <li><strong>Pitch Star</strong> : structurer une réponse impactante en 90 secondes.</li>
+          <li><strong>Zone de confort</strong> : 3 actions concrètes pour progresser.</li>
+        </ul>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/s-affirmer/" target="_blank" rel="noopener">S’Affirmer →</a>
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/pitch-star/" target="_blank" rel="noopener">Pitch Star →</a>
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/zone-de-confort/" target="_blank" rel="noopener">Zone de confort →</a>
+        <a class="btn" href="#p-iki">Conclusion : Ikigai →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-iki" class="panel" aria-label="Mon Ikigai">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <h2>Mon Ikigai — Synthèse</h2>
+          <p>Assembler toutes les pièces : personnalité, valeurs, compétences, objectifs, énergie.</p>
+        </div>
+        <a class="close" href="#top">Fermer ✕</a>
+      </div>
+      <div class="sheet-body">
+        <p>
+          L’Ikigai Emploi est conçu pour t’aider à définir ton potentiel et tes opportunités de manière concrète.
+        </p>
+        <ul>
+          <li><strong>❤️ Mes valeurs</strong> (ce que j’aime)</li>
+          <li><strong>🛠️ Ma personnalité</strong> (mon potentiel)</li>
+          <li><strong>💼 Mes compétences</strong> (ce qui me rend utile)</li>
+          <li><strong>🌱 Mes objectifs</strong> (pourquoi être payé)</li>
+        </ul>
+        <p><strong>⚖️ Socle :</strong> ton équilibre (rythme, bien-être, ressources).</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://mlpb-tools.github.io/ikigai/" target="_blank" rel="noopener">Ikigai →</a>
+        <a class="btn" href="#top">Retour à l’accueil</a>
+      </div>
+    </div>
+  </section>
 
 </body>
 </html>
-
