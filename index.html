@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Script Lucide Icons (Correction: Utilisation de la version UMD spécifique pour garantir la variable globale) -->
+  <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
+
   <style>
     :root {
       /* PALETTE STRICTE LS4YOU */
@@ -18,7 +21,7 @@
       --mint: #BFEFE8;        /* Menthe pastel */
       --orange: #FFB067;      /* Orange clair */
 
-      --bg: #FFF9F0;          /* Fond crème chaleureux (moins blanc) */
+      --bg: #FFF9F0;          /* Fond crème chaleureux */
       --ink: #101114;         
       --muted: rgba(16, 17, 20, 0.7);
 
@@ -86,19 +89,18 @@
       padding: 0 16px 26px;
     }
 
-    /* CARD CONTAINER (Bordure Multicolore) */
+    /* CARD CONTAINER */
     .frame {
       border-radius: 24px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       overflow: hidden;
-      /* Superbe bordure épaisse dégradée */
       border: 5px solid transparent;
       background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), linear-gradient(135deg, var(--red), var(--yellow), var(--turq));
       background-origin: border-box;
       background-clip: padding-box, border-box;
     }
 
-    /* --- HEADER (Rempli de motifs) --- */
+    /* --- HEADER --- */
     .hero {
       position: relative;
       border-bottom: 4px solid var(--turq);
@@ -116,7 +118,7 @@
       padding: 24px 32px;
     }
 
-    /* Le fameux fond rempli de pièces et sphères */
+    /* Pattern Header */
     .header-pattern {
       position: absolute;
       inset: 0;
@@ -124,7 +126,6 @@
       z-index: 0;
     }
     
-    /* Sphères pleines */
     .hs { position: absolute; border-radius: 50%; opacity: 0.65; mix-blend-mode: multiply; }
     .hs-1 { background: var(--red); width: 140px; height: 140px; top: -40px; left: 10%; }
     .hs-2 { background: var(--yellow); width: 180px; height: 180px; bottom: -60px; right: 20%; }
@@ -132,7 +133,6 @@
     .hs-4 { background: var(--mint); width: 90px; height: 90px; bottom: 10px; left: 30%; }
     .hs-5 { background: var(--orange); width: 70px; height: 70px; top: 60px; left: 45%; }
 
-    /* Sphères avec bordures */
     .hs-outline { position: absolute; border-radius: 50%; background: transparent; }
     .ho-1 { border: 6px solid var(--red); width: 100px; height: 100px; top: 15px; right: 15%; opacity: 0.7; }
     .ho-2 { border: 4px solid var(--turq); width: 60px; height: 60px; bottom: 20px; left: 15%; opacity: 0.8; }
@@ -142,22 +142,20 @@
     .ho-6 { border: 4px solid var(--red); width: 50px; height: 50px; bottom: 40px; right: 35%; opacity: 0.5; }
     .ho-7 { border: 7px solid var(--turq); width: 130px; height: 130px; top: 50px; left: 5%; opacity: 0.4; }
 
-    /* Pièces de puzzle du header */
     .hp { position: absolute; opacity: 0.85; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
     .hp-1 { fill: var(--turq); width: 90px; top: 10px; left: 25%; transform: rotate(15deg); }
     .hp-2 { fill: var(--red); width: 110px; bottom: 5px; right: 10%; transform: rotate(-20deg); }
     .hp-3 { fill: var(--yellow); width: 80px; top: 15px; right: 25%; transform: rotate(45deg); }
     .hp-4 { fill: var(--orange); width: 70px; bottom: 20px; left: 40%; transform: rotate(-45deg); }
 
-    /* Contenu du Header par-dessus le fond */
     .header-content {
       position: relative;
       z-index: 10;
       display: flex;
       width: 100%;
       justify-content: space-between;
-      align-items: flex-start; /* Pousse les logos vers le haut */
-      min-height: 70px; /* Garantit l'espace pour le titre centré */
+      align-items: flex-start;
+      min-height: 70px;
     }
 
     .logo-left, .logo-right {
@@ -166,15 +164,14 @@
       z-index: 20;
     }
     
-    /* Légères marges négatives pour caler les logos parfaitement dans les coins */
     .logo-left { justify-content: flex-start; margin-top: -12px; margin-left: -16px; }
     .logo-right { justify-content: flex-end; margin-top: -12px; margin-right: -16px; }
     
     .header-logo {
       height: 65px;
       object-fit: contain;
-      mix-blend-mode: multiply; /* Rend le fond blanc transparent pour fusionner avec les sphères */
-      filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05)); /* Ombre douce transparente */
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
     }
 
     .title-center {
@@ -192,7 +189,6 @@
       color: var(--red);
       margin: 0;
       line-height: 1;
-      /* Halo blanc très prononcé pour détacher le texte du fond coloré */
       text-shadow: 
         -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff,
         -4px 0 0 #fff, 4px 0 0 #fff, 0 -4px 0 #fff, 0 4px 0 #fff,
@@ -210,7 +206,7 @@
         -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
     }
 
-    /* --- GRID CARDS (Bordures et fonds colorés) --- */
+    /* --- GRID CARDS --- */
     .cards {
       padding: 20px 16px;
       display: grid;
@@ -239,7 +235,6 @@
       box-shadow: 0 16px 32px rgba(16, 17, 20, 0.12);
     }
 
-    /* Couleurs spécifiques par carte pour chasser le blanc */
     .card-1 { border-color: var(--mint); background: rgba(191,239,232, 0.25); }
     .card-2 { border-color: var(--red); background: rgba(198,40,40, 0.06); }
     .card-3 { border-color: var(--yellow); background: rgba(255,201,40, 0.15); }
@@ -321,7 +316,7 @@
       flex: 0 0 auto;
     }
 
-    /* FRISE COULEURS (Capsules bas de page) */
+    /* FRISE COULEURS */
     .frieze {
       display: flex;
       gap: 12px;
@@ -335,6 +330,126 @@
       flex: 1;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
     }
+
+    /* --- MODALE --- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 17, 20, 0.6);
+      backdrop-filter: blur(5px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: white;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 24px;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 4px solid var(--turq); /* Défaut, changé par JS */
+      max-height: 90vh; /* Limite hauteur */
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #f1f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      transition: all 0.2s;
+    }
+    .modal-close:hover {
+      background: var(--red);
+      color: white;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-shrink: 0; /* Ne pas rétrécir */
+    }
+    .modal-header .n {
+      font-size: 20px;
+      width: 50px;
+      height: 50px;
+    }
+    .modal-header h2 {
+      font-size: 24px;
+      margin: 0;
+      line-height: 1.1;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+    .modal-body {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 24px;
+      overflow-y: auto; /* Scroll si contenu long */
+      padding-right: 8px; /* Espace pour la scrollbar */
+    }
+    .modal-body strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .modal-footer {
+        flex-shrink: 0; /* Garder le footer visible */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .modal-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px;
+      background: var(--ink);
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .modal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Scrollbar pour modal body */
+    .modal-body::-webkit-scrollbar { width: 6px; }
+    .modal-body::-webkit-scrollbar-track { background: transparent; }
+    .modal-body::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
 
     /* EU footer */
     .eu {
@@ -355,21 +470,18 @@
       justify-content: center;
       margin-bottom: 12px;
     }
-    
     .eu-logo-container {
       background: transparent;
       padding: 0;
       display: inline-block;
     }
-    
     .eu-logo {
-      height: 75px; /* Réduit de 25% (100px -> 75px) */
+      height: 75px;
       width: auto;
       display: block;
-      mix-blend-mode: multiply; /* Rend le fond blanc transparent */
+      mix-blend-mode: multiply;
       filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
     }
-    
     .eu p {
       margin: 8px auto 0;
       max-width: 90ch;
@@ -397,7 +509,7 @@
     /* RESPONSIVE */
     @media (max-width: 920px) {
       .header-logo { height: 50px; }
-      .eu-logo { height: 80px; } /* Ajusté pour rester lisible sur mobile */
+      .eu-logo { height: 65px; }
       .cards { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 760px) {
@@ -411,7 +523,7 @@
 </head>
 
 <body>
-  <!-- BACKGROUND DECORATIONS (Cercles & Puzzles LS4YOU) -->
+  <!-- BACKGROUND DECORATIONS -->
   <div class="bg-shapes" aria-hidden="true">
     <div class="bg-circle c-mint"></div>
     <div class="bg-circle c-yellow"></div>
@@ -438,14 +550,12 @@
           
           <!-- PATTERN DE FOND DU HEADER -->
           <div class="header-pattern" aria-hidden="true">
-            <!-- Sphères pleines -->
             <div class="hs hs-1"></div>
             <div class="hs hs-2"></div>
             <div class="hs hs-3"></div>
             <div class="hs hs-4"></div>
             <div class="hs hs-5"></div>
             
-            <!-- Sphères avec bordures -->
             <div class="hs-outline ho-1"></div>
             <div class="hs-outline ho-2"></div>
             <div class="hs-outline ho-3"></div>
@@ -454,7 +564,6 @@
             <div class="hs-outline ho-6"></div>
             <div class="hs-outline ho-7"></div>
             
-            <!-- Pièces de puzzle -->
             <svg class="hp hp-1" viewBox="0 0 24 24"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"/></svg>
             <svg class="hp hp-2" viewBox="0 0 24 24"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"/></svg>
             <svg class="hp hp-3" viewBox="0 0 24 24"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"/></svg>
@@ -479,71 +588,71 @@
         </div>
       </header>
 
-      <!-- CARDS AVEC BORDURES ET FONDS COLORÉS -->
+      <!-- CARDS -->
       <section class="cards" aria-label="Parcours MLS4YOU">
 
-        <a class="card card-1" href="#intro">
+        <div class="card card-1" onclick="openModal('intro')">
           <div class="n" style="background: var(--mint); color: var(--ink);">1</div>
           <div class="ct">
             <h3>INTRODUCTION</h3>
             <p>Le parcours Life Skills : 7 modules complémentaires pour tracer ton parcours d’insertion.</p>
             <span class="pill"><span class="dot t"></span>Démarrer ici</span>
           </div>
-        </a>
+        </div>
 
-        <a class="card card-2" href="https://mlpb-tools.github.io/16perso/" target="_blank" rel="noopener">
+        <div class="card card-2" onclick="openModal('perso')">
           <div class="n" style="background: var(--red); color: white;">2</div>
           <div class="ct">
             <h3>MA PERSONNALITÉ</h3>
             <p>Votre fonctionnement naturel. Travailler en phase avec son tempérament réduit la fatigue.</p>
             <span class="pill"><span class="dot r"></span>Test 16 profils</span>
           </div>
-        </a>
+        </div>
 
-        <a class="card card-3" href="https://mlpb-tools.github.io/mes-valeurs/" target="_blank" rel="noopener">
+        <div class="card card-3" onclick="openModal('valeurs')">
           <div class="n" style="background: var(--yellow); color: var(--ink);">3</div>
           <div class="ct">
             <h3>VALEURS &amp; OBJECTIFS</h3>
             <p>Vos moteurs profonds + vos priorités actionnables. Aligner valeurs et objectifs pro.</p>
             <span class="pill"><span class="dot y"></span>Motivation + priorités</span>
           </div>
-        </a>
+        </div>
 
-        <a class="card card-4" href="https://mlpb-tools.github.io/mes-competences/" target="_blank" rel="noopener">
+        <div class="card card-4" onclick="openModal('competences')">
           <div class="n" style="background: var(--turq); color: white;">4</div>
           <div class="ct">
             <h3>MES COMPÉTENCES</h3>
             <p>Vie perso, loisirs, jobs courts, galères, bénévolat : tout peut devenir compétence.</p>
             <span class="pill"><span class="dot m"></span>Ce que je sais faire</span>
           </div>
-        </a>
+        </div>
 
-        <a class="card card-5" href="https://mlpb-tools.github.io/Energie/" target="_blank" rel="noopener">
+        <div class="card card-5" onclick="openModal('energie')">
           <div class="n" style="background: var(--orange); color: white;">5</div>
           <div class="ct">
             <h3>MON ÉNERGIE</h3>
             <p>Chercher sa voie demande une énergie physique et mentale. Prendre soin de soi = réussir.</p>
             <span class="pill"><span class="dot o"></span>Rythme &amp; performance</span>
           </div>
-        </a>
+        </div>
 
-        <a class="card card-6" href="#communiquer">
+        <div class="card card-6" onclick="openModal('communiquer')">
           <div class="n" style="background: var(--yellow); color: var(--ink);">6</div>
           <div class="ct">
             <h3>COMMUNIQUER</h3>
             <p>S’Affirmer → Pitch Star → Zone de confort : se présenter avec impact et progresser par l’action.</p>
             <span class="pill"><span class="dot y"></span>Prise de parole</span>
           </div>
-        </a>
+        </div>
 
-        <a class="card wide" href="https://mlpb-tools.github.io/ikigai/" target="_blank" rel="noopener">
+        <div class="card wide" onclick="openModal('ikigai')">
           <div class="badge-iki" aria-hidden="true"></div>
           <div class="ct">
             <h3 style="font-size: 18px;">MON IKIGAI — SYNTHÈSE</h3>
             <p style="font-size: 14px;">Là où talents naturels, motivations, compétences et énergie optimale rencontrent des opportunités concrètes.</p>
             <span class="pill"><span class="dot r"></span>Conclusion</span>
           </div>
-        </a>
+        </div>
 
       </section>
 
@@ -576,7 +685,198 @@
     </section>
   </main>
 
-  <div id="intro" style="position:relative;top:-80px;"></div>
-  <div id="communiquer" style="position:relative;top:-80px;"></div>
+  <!-- MODAL STRUCTURE -->
+  <div id="modal-overlay" class="modal-overlay" aria-hidden="true" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()"><i data-lucide="x"></i></button>
+      <div class="modal-header">
+        <div class="n" id="modal-number"></div>
+        <h2 id="modal-title"></h2>
+      </div>
+      <div class="modal-body" id="modal-desc"></div>
+      <div class="modal-footer">
+        <!-- Buttons injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DONNÉES DES CARTES
+    const CARDS_DATA = {
+      intro: {
+        number: 1,
+        title: "INTRODUCTION",
+        color: "var(--mint)",
+        desc: `<strong>Construire son projet professionnel par les Life Skills</strong><br><br>
+        Cet outil s'inscrit dans un parcours structuré de développement des Life Skills pour jeunes en insertion. Il articule cinq modules complémentaires qui dessinent progressivement votre <strong>portrait professionnel unique</strong> :<br><br>
+        • <strong>Personnalité (16 Profils)</strong> → Votre fonctionnement naturel<br>
+        • <strong>Valeurs</strong> → Vos moteurs de motivation<br>
+        • <strong>Objectifs ABC</strong> → Vos priorités actionnables<br>
+        • <strong>Compétences situationnelles</strong> → Vos forces prouvées<br>
+        • <strong>Énergie</strong> → Vos moments de performance optimale<br>
+        • <strong>S'affirmer</strong> → Votre communication authentique<br>
+        • <strong>Sortie zone de confort</strong> → Votre capacité d'évolution<br><br>
+        <strong>Logique progressive :</strong> La personnalité éclaire le <em>comment</em>, les valeurs le <em>pourquoi</em>, les objectifs le <em>quoi</em>, les compétences le <em>ce que je maîtrise</em>, l'énergie le <em>quand je réussis</em>, l'affirmation le <em>comment je le transmets</em>, et la sortie de zone de confort le <em>comment je grandis</em>.<br><br>
+        <strong>Synthèse Ikigai :</strong> L'intersection de ces dimensions révèle votre <strong>zone d'excellence professionnelle</strong> – là où vos talents naturels, motivations profondes, compétences validées et énergie optimale rencontrent les besoins du marché du travail.`,
+        link: "#", 
+        btnText: "" 
+      },
+      perso: {
+        number: 2,
+        title: "MA PERSONNALITÉ",
+        color: "var(--red)",
+        desc: `La personnalité désigne l'ensemble de vos tendances comportementales stables. C'est votre manière habituelle de réagir face aux situations professionnelles, de communiquer avec les équipes ou les employeurs, et de traiter l'information.<br><br>
+        Nous allons découvrir le <strong>test des 16 personnalités</strong> (inspiré du MBTI), un outil d'auto-connaissance qui identifie votre fonctionnement selon 4 dimensions :<br>
+        • Équipe ou Solo<br>
+        • Logique ou Social<br>
+        • Détails ou Global<br>
+        • Cadre ou Souplesse<br><br>
+        <em>Durée : 5 min. Chaque profil génère une carte de forces téléchargeable pour valoriser vos atouts.</em>`,
+        link: "https://mlpb-tools.github.io/16perso/",
+        btnText: "Faire le test"
+      },
+      valeurs: {
+        number: 3,
+        title: "VALEURS & OBJECTIFS",
+        color: "var(--yellow)",
+        desc: `Votre profil personnalité donne le <strong>“COMMENT”</strong> (votre mode opératoire naturel).<br>
+        Vos valeurs donnent le <strong>“POURQUOI”</strong> (vos moteurs profonds qui donnent sens à vos actions).<br><br>
+        Une valeur est un principe ou une conviction profonde qui guide vos comportements. C’est ce qui compte vraiment pour vous (ex. : respect, autonomie, solidarité).<br><br>
+        <strong>Rôle clé dans le travail :</strong><br>
+        • <strong>Motivation :</strong> Engagement total quand le poste correspond à vos valeurs<br>
+        • <strong>Satisfaction :</strong> Épanouissement dans un environnement qui les respecte<br>
+        • <strong>Choix métiers :</strong> Orientation vers des secteurs alignés<br><br>
+        <em>“Vos valeurs prioritaires orientent directement vos objectifs professionnels”</em><br><br>
+        <strong>Transition :</strong> Transformons maintenant ces valeurs en actions concrètes.`,
+        link: "https://mlpb-tools.github.io/mes-valeurs/",
+        btnText: "Définir mes valeurs"
+      },
+      competences: {
+        number: 4,
+        title: "MES COMPÉTENCES",
+        color: "var(--turq)",
+        desc: "Vie perso, loisirs, jobs courts, galères, bénévolat : tout peut devenir compétence.<br><br>Apprenez à identifier vos savoir-faire (Hard Skills) et savoir-être (Soft Skills) pour les valoriser auprès des recruteurs.",
+        link: "https://mlpb-tools.github.io/mes-competences/",
+        btnText: "Lister mes atouts"
+      },
+      energie: {
+        number: 5,
+        title: "MON ÉNERGIE",
+        color: "var(--orange)",
+        desc: "Chercher sa voie demande une énergie physique et mentale importante. Comprendre vos rythmes, ce qui vous donne de l'énergie et ce qui vous en coûte est essentiel pour réussir sur la durée.",
+        link: "https://mlpb-tools.github.io/Energie/",
+        btnText: "Analyser mon rythme"
+      },
+      communiquer: {
+        number: 6,
+        title: "COMMUNIQUER",
+        color: "var(--yellow)",
+        desc: `<strong>AXE 6 : COMMUNIQUER</strong><br>
+        Dans cette étape clé de votre parcours Life Skills, trois activités interconnectées vous préparent à vous présenter avec impact et à expérimenter pour évoluer :<br><br>
+        
+        <strong>1. S'Affirmer</strong> — <em>Votre prise de parole authentique</em><br>
+        • <strong>Objectif :</strong> Dire qui vous êtes, vos compétences, vos projets avec clarté et confiance (entretien stage, RDV ML, réseau pro).<br><br>
+        
+        <strong>2. Pitch Star</strong> — <em>Votre présentation percutante</em><br>
+        • <strong>Outil :</strong> Méthode STAR adaptée jeunes (Situation/Tâche/Action/Résultat)<br>
+        • <strong>Objectif :</strong> Structurer une réponse pour entretiens/rencontres pro<br>
+        • <strong>Résultat :</strong> Template rempli → prêt pour recruteurs<br><br>
+        
+        <strong>3. Zone de Confort</strong> — <em>Votre évolution par l'action</em><br>
+        • <strong>Outil :</strong> Cartographie 3 zones (confort/élasticité/panique) + défis gradués<br>
+        • <strong>Objectif :</strong> Identifier 3 actions concrètes pour progresser (nouveau mail, RDV inconnu, stage différent)<br><br>
+        
+        <div style="background:rgba(0,0,0,0.05); padding:10px; border-radius:8px; border-left:4px solid var(--ink); margin-top:10px;">
+        <strong>Logique pédagogique :</strong><br>
+        S'Affirmer (dire qui je suis) → Pitch Star (dire ce que j'ai fait) → Zone Confort (dire ce que je vais oser)
+        </div>`,
+        // NOUVEAU : MULTIPLES LIENS
+        multiLinks: [
+            { text: "1. S'Affirmer", url: "https://mlpb-tools.github.io/s-affirmer/" },
+            { text: "2. Pitch Star", url: "https://mlpb-tools.github.io/pitch-star/" },
+            { text: "3. Zone de Confort", url: "https://mlpb-tools.github.io/zone-de-confort/" }
+        ]
+      },
+      ikigai: {
+        number: "★",
+        title: "MON IKIGAI — SYNTHÈSE",
+        color: "var(--red)",
+        desc: "Là où talents naturels, motivations, compétences et énergie optimale rencontrent des opportunités concrètes.<br><br>Faites la synthèse de tout votre parcours pour identifier votre zone de génie.",
+        link: "https://mlpb-tools.github.io/ikigai/",
+        btnText: "Voir ma synthèse"
+      }
+    };
+
+    // GESTION MODALE
+    function openModal(cardId) {
+      const data = CARDS_DATA[cardId];
+      if (!data) return;
+
+      const modal = document.getElementById('modal-overlay');
+      const content = modal.querySelector('.modal-content');
+      const footer = modal.querySelector('.modal-footer');
+      
+      // Update Content
+      document.getElementById('modal-number').innerText = data.number;
+      document.getElementById('modal-number').style.background = data.color;
+      document.getElementById('modal-number').style.color = (data.color === 'var(--red)' || data.color === 'var(--turq)') ? 'white' : 'var(--ink)';
+      
+      document.getElementById('modal-title').innerText = data.title;
+      document.getElementById('modal-desc').innerHTML = data.desc;
+      
+      // Clear Footer
+      footer.innerHTML = '';
+
+      if (data.multiLinks) {
+          // Cas multi-boutons (Communique)
+          data.multiLinks.forEach(link => {
+              const btn = document.createElement('a');
+              btn.className = 'modal-btn';
+              btn.href = link.url;
+              btn.target = '_blank';
+              btn.innerText = link.text;
+              btn.style.background = data.color;
+              btn.style.color = (data.color === 'var(--yellow)' || data.color === 'var(--mint)') ? 'var(--ink)' : 'white';
+              btn.style.marginBottom = '10px';
+              footer.appendChild(btn);
+          });
+      } else if (data.link && data.link !== '#') {
+          // Cas simple (1 bouton)
+          const btn = document.createElement('a');
+          btn.className = 'modal-btn';
+          btn.href = data.link;
+          btn.target = '_blank';
+          btn.innerText = data.btnText;
+          btn.style.background = data.color;
+          btn.style.color = (data.color === 'var(--yellow)' || data.color === 'var(--mint)') ? 'var(--ink)' : 'white';
+          footer.appendChild(btn);
+      }
+      // Si aucun lien, le footer reste vide (masqué)
+
+      // Border color
+      content.style.borderColor = data.color;
+
+      // Show
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Wait for everything to load including external scripts
+    window.addEventListener('load', function() {
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+  </script>
 </body>
 </html>
