@@ -515,7 +515,13 @@
     @media (max-width: 760px) {
       .header-content { flex-wrap: wrap; align-items: center; }
       .logo-left, .logo-right { margin: 0; }
+      
+      /* Ajustement spécifique mobile pour les logos du header */
+      .header-logo { height: 42px; }
+      
       .title-center { position: relative; top: auto; left: auto; transform: none; order: 3; width: 100%; margin-top: 15px; }
+      .hero-title { font-size: 28px; } /* Titre légèrement réduit pour l'harmonie mobile */
+      
       .cards { grid-template-columns: 1fr; }
       .card.wide { grid-column: auto; }
     }
