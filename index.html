@@ -656,6 +656,66 @@ footer{
 .mc-modal-title{font-weight:900;font-size:14px;text-transform:uppercase;color:var(--noir);font-family:'Nunito',sans-serif}
 .mc-modal-close{border:none;background:var(--gris-clair);border-radius:12px;width:38px;height:38px;cursor:pointer;font-weight:900;color:var(--noir)}
 .mc-modal-body{padding:16px;overflow:auto}
+  /* --- STEP 1 modern --- */
+.mc-field{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.mc-label2{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--noir);opacity:.75;letter-spacing:.4px}
+.mc-input2{
+  width:100%;padding:14px 14px;border-radius:14px;border:2px solid var(--gris-border);
+  background:#f7f7f7;font-weight:800;font-size:14px;outline:none;transition:.15s;
+}
+.mc-input2:focus{background:#fff;border-color:var(--bleu);box-shadow:0 0 0 4px rgba(40,151,213,.12)}
+
+.mc-cat2{display:block}
+.mc-cat2-radio{position:absolute;opacity:0;pointer-events:none}
+.mc-cat2-card{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px 12px;border-radius:16px;border:2px solid var(--gris-border);
+  background:#fff;cursor:pointer;transition:.15s;
+}
+.mc-cat2-card:hover{transform:translateY(-1px);box-shadow:0 10px 25px rgba(0,0,0,.06)}
+.mc-cat2-icon{font-size:26px;width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--catbg)}
+.mc-cat2-title{font-weight:950;font-size:13px;text-transform:uppercase}
+.mc-cat2-desc{font-size:12px;font-weight:700;color:#666;margin-top:2px;line-height:1.25}
+.mc-cat2-check{
+  margin-left:auto;min-width:26px;height:26px;border-radius:10px;
+  display:grid;place-items:center;font-weight:1000;
+  background:#eef2f7;color:#9aa3ad;opacity:.6;transition:.15s;
+}
+.mc-cat2-radio:checked + .mc-cat2-card{
+  border-color:var(--cat);box-shadow:0 14px 34px rgba(0,0,0,.08);
+}
+.mc-cat2-radio:checked + .mc-cat2-card .mc-cat2-check{
+  background:var(--cat);color:#fff;opacity:1;
+}
+
+/* bouton sticky en bas du modal */
+.mc-modal-actions{
+  position:sticky;bottom:0;background:linear-gradient(180deg, rgba(255,255,255,0), #fff 35%);
+  padding-top:10px;margin-top:10px;
+}
+.mc-btn2{
+  width:100%;padding:14px 16px;border-radius:14px;border:none;cursor:pointer;
+  font-weight:950;text-transform:uppercase;letter-spacing:.3px;display:flex;gap:10px;align-items:center;justify-content:center;
+}
+.mc-btn2.primary{background:var(--bleu);color:#fff}
+.mc-btn2.primary:hover{filter:brightness(.95)}
+.mc-btn2.ghost{background:#f3f4f6;color:var(--noir)}
+  /* --- RESULTATS RECHERCHE (moderne) --- */
+.mc-res2{margin-top:8px;border:2px solid var(--gris-border);border-radius:16px;overflow:hidden;background:#fff}
+.mc-res2-item{
+  width:100%;text-align:left;border:none;background:#fff;
+  display:flex;gap:10px;align-items:flex-start;padding:12px 12px;
+  border-bottom:1px solid #f1f1f1;cursor:pointer;
+}
+.mc-res2-item:hover{background:#f7fbff}
+.mc-res2-muted{font-weight:800;color:#777;justify-content:center}
+.mc-res2-pin{font-size:18px;opacity:.65;margin-top:2px}
+.mc-res2-title{font-weight:950;font-size:13px;color:var(--noir)}
+.mc-res2-sub{font-weight:700;font-size:12px;color:#666;margin-top:2px;line-height:1.2}
+.mc-res2-kbd{
+  margin-left:auto;font-size:11px;font-weight:900;color:#6b7280;
+  background:#eef2f7;border-radius:10px;padding:4px 8px;min-width:52px;text-align:center
+}                                         
 </style>
 </head>
 <body>
@@ -2047,46 +2107,51 @@ footer{
       <div class="mc-modal-body" id="mc-wiz-scroll">
 
         <!-- ETAPE 1 -->
-        <div id="mc-step-1">
-          <label class="mc-label">Nom du repère</label>
-          <input type="text" id="mc-name" class="mc-input" placeholder="Ex: Mission Locale, Gare, Parc..." autocomplete="off">
+      <div id="mc-step-1">
+  <div class="mc-field">
+    <div class="mc-label2">Nom du repère</div>
+    <input type="text" id="mc-name" class="mc-input2" placeholder="Ex : Mission Locale, Gare, Parc…" autocomplete="off">
+  </div>
 
-          <label class="mc-label">Catégorie</label>
-          <div id="mc-cat-grid" style="margin-bottom: 20px;"></div>
+  <div class="mc-field">
+    <div class="mc-label2">Catégorie</div>
+    <div id="mc-cat-grid" style="display:flex;flex-direction:column;gap:10px;"></div>
+  </div>
 
-          <button class="mc-btn mc-btn-blue" type="button" onclick="mcGoToSearch()">
-            Suivant : placer sur la carte ➔
-          </button>
-        </div>
-
+  <div class="mc-modal-actions">
+    <button class="mc-btn2 primary" onclick="mcGoToSearch()">Suivant : placer sur la carte ➜</button>
+  </div>
+</div>
         <!-- ETAPE 2 -->
-        <div id="mc-step-2" style="display:none;">
-          <button class="mc-link" type="button" onclick="mcBackToStep1()">← Retour</button>
+<div id="mc-step-2" style="display:none;">
+  <button class="mc-btn2 ghost" type="button" onclick="mcBackToStep1()">← Retour</button>
 
-          <label class="mc-label">Rechercher une adresse</label>
-          <div class="mc-search-box">
-            <input type="text" id="mc-search" class="mc-input mc-search-input"
-                   placeholder="Ex: Mairie, Gare, 10 rue..." oninput="mcHandleSearch(this.value)" autocomplete="off">
-            <span class="mc-search-icon">🔍</span>
-            <div id="mc-loader" class="mc-search-loader"></div>
-          </div>
-
-          <div id="mc-results" class="mc-results"></div>
-
-          <div id="mc-info-confirm" class="mc-info">
-            <span>💡</span>
-            <p>Le repère a été placé. <b>Vous pouvez le glisser sur la carte</b> pour l’ajuster précisément.</p>
-          </div>
-
-          <button id="mc-btn-confirm" class="mc-btn mc-btn-green" style="display:none;" type="button" onclick="mcConfirmAdd()">
-            ✅ Enregistrer le repère
-          </button>
-        </div>
-
-      </div>
+  <div class="mc-field" style="margin-top:10px;">
+    <div class="mc-label2">Rechercher un lieu</div>
+    <div class="mc-search-box">
+      <input type="text" id="mc-search" class="mc-input2" placeholder="Ex : Gare, Mairie, Rue…" oninput="mcHandleSearch(this.value)" autocomplete="off">
+      <span class="mc-search-icon">🔍</span>
+      <div id="mc-loader" class="mc-search-loader"></div>
     </div>
   </div>
 
+  <div id="mc-results" class="mc-res2"></div>
+
+  <div class="mc-info" id="mc-info-confirm">
+    <span>💡</span>
+    <p>Repère placé. Tu peux le <b>glisser</b> pour ajuster.</p>
+  </div>
+
+  <div class="mc-modal-actions">
+    <button class="mc-btn2 ghost" type="button" onclick="mcEnableClickToPlace()">
+      📌 Placer en cliquant sur la carte
+    </button>
+
+    <button id="mc-btn-confirm" class="mc-btn2 primary" style="display:none;" onclick="mcConfirmAdd()">
+      ✅ Enregistrer le repère
+    </button>
+  </div>
+</div>
   <!-- TOAST -->
   <div id="mc-toast" class="mc-toast"></div>
 </section>
@@ -2661,21 +2726,23 @@ function mcRenderCats() {
   const grid = document.getElementById('mc-cat-grid');
   if (!grid) return;
 
-  const order = ['reseau', 'competences', 'solutions', 'ressources'];
-  grid.innerHTML = order.map(id => {
+  const order = ['reseau','competences','solutions','ressources'];
+
+  grid.innerHTML = order.map((id) => {
     const cat = mcCategories[id];
-    if (!cat) return '';
     return `
-    <label class="mc-cat-label">
-      <input type="radio" name="mc-cat" value="${cat.id}" class="mc-cat-radio">
-      <div class="mc-cat-card" style="--bg-color: ${cat.color}; --bg-light: ${cat.bg};">
-        <div class="mc-cat-icon">${cat.icon}</div>
-        <div class="mc-cat-text">
-          <h4>${cat.label}</h4>
-          <p>${cat.desc}</p>
+      <label class="mc-cat2" style="--cat:${cat.color};--catbg:${cat.bg}">
+        <input class="mc-cat2-radio" type="radio" name="mc-cat" value="${cat.id}">
+        <div class="mc-cat2-card" role="button" tabindex="0">
+          <div class="mc-cat2-icon">${cat.icon}</div>
+          <div class="mc-cat2-text">
+            <div class="mc-cat2-title">${cat.label}</div>
+            <div class="mc-cat2-desc">${cat.desc}</div>
+          </div>
+          <div class="mc-cat2-check">✓</div>
         </div>
-      </div>
-    </label>`;
+      </label>
+    `;
   }).join('');
 }
 
@@ -2699,6 +2766,7 @@ function mcInit() {
 
   mcRenderCats();
   mcUpdateList();
+  mcBindSearchEnter();
 }// Fermer la fenêtre si clic sur le fond (overlay) ou touche Échap
 (function mcModalUX(){
   const modal = document.getElementById('mc-modal');
@@ -2777,44 +2845,106 @@ function mcBackToStep1() {
   document.getElementById('mc-step-1').style.display = 'block';
 }
 
-let mcSearchTimeout;
-async function mcHandleSearch(query) {
-  clearTimeout(mcSearchTimeout);
+// --- RECHERCHE (moderne : debounce + cache + abort + Enter) ---
+const mcSearchCache = new Map();
+let mcSearchAbort = null;
+let mcSearchTimer = null;
+
+function mcBindSearchEnter(){
+  const input = document.getElementById('mc-search');
+  const resEl = document.getElementById('mc-results');
+  if(!input || !resEl) return;
+
+  // évite plusieurs bindings
+  if (input.dataset.boundEnter === "1") return;
+  input.dataset.boundEnter = "1";
+
+  input.addEventListener('keydown', (e)=>{
+    if(e.key !== 'Enter') return;
+    const first = resEl.querySelector('.mc-res2-item[data-lat]');
+    if(first){
+      e.preventDefault();
+      mcSelectLocation(first.dataset.lat, first.dataset.lon, first.dataset.title);
+    }
+  });
+}
+
+function mcHandleSearch(query){
+  const q = (query || '').trim();
   const resEl = document.getElementById('mc-results');
   const loader = document.getElementById('mc-loader');
-  if (!resEl || !loader) return;
+  if(!resEl || !loader) return;
 
-  if (!query || query.length < 3) {
+  clearTimeout(mcSearchTimer);
+
+  if(q.length < 3){
     resEl.classList.remove('active');
     loader.style.display = 'none';
     return;
   }
 
-  loader.style.display = 'block';
-  mcSearchTimeout = setTimeout(async () => {
-    resEl.innerHTML = '<div class="mc-result-item" style="justify-content:center; color:#888;"><strong>Recherche...</strong></div>';
-    resEl.classList.add('active');
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`);
-      const data = await res.json();
-      if (!Array.isArray(data) || data.length === 0) {
-        resEl.innerHTML = '<div class="mc-result-item" style="justify-content:center; color:#888;"><strong>Aucun résultat 😔</strong></div>';
-      } else {
-        resEl.innerHTML = data.map(item => {
-          const mainName = item.name || (item.display_name ? item.display_name.split(',')[0] : 'Résultat');
-          const safe = String(mainName).replace(/'/g, "\\'");
-          return `
-            <div class="mc-result-item" onclick="mcSelectLocation(${item.lat}, ${item.lon}, '${safe}')">
-              <span style="font-size:18px; opacity:0.6; margin-top:2px;">📍</span>
-              <div><strong>${mainName}</strong><span>${String(item.display_name||'').replace(mainName + ', ', '')}</span></div>
-            </div>`;
-        }).join('');
-      }
-    } catch (e) {
-      resEl.innerHTML = '<div class="mc-result-item" style="justify-content:center; color:var(--rouge);"><strong>Erreur réseau</strong></div>';
+  mcSearchTimer = setTimeout(async ()=>{
+    // cache
+    if(mcSearchCache.has(q)){
+      resEl.innerHTML = mcSearchCache.get(q);
+      resEl.classList.add('active');
+      loader.style.display = 'none';
+      return;
     }
-    loader.style.display = 'none';
-  }, 500);
+
+    // abort précédent
+    if(mcSearchAbort) mcSearchAbort.abort();
+    mcSearchAbort = new AbortController();
+
+    loader.style.display = 'block';
+    resEl.innerHTML = `<div class="mc-res2-item mc-res2-muted">Recherche…</div>`;
+    resEl.classList.add('active');
+
+    try{
+      const url =
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=6&addressdetails=1&countrycodes=fr,es`;
+
+      const r = await fetch(url, {
+        signal: mcSearchAbort.signal,
+        headers: { 'Accept-Language':'fr' }
+      });
+      const data = await r.json();
+
+      const html = (!Array.isArray(data) || data.length===0)
+        ? `<div class="mc-res2-item mc-res2-muted">Aucun résultat</div>`
+        : data.map((it, idx)=>{
+            const title = (it.name || (it.display_name||'').split(',')[0] || q);
+            const subtitle = (it.display_name || '').replace(title + ', ', '');
+            return `
+              <button class="mc-res2-item" type="button"
+                data-lat="${it.lat}" data-lon="${it.lon}" data-title="${escapeHtml(title)}">
+                <div class="mc-res2-pin">📍</div>
+                <div class="mc-res2-txt">
+                  <div class="mc-res2-title">${escapeHtml(title)}</div>
+                  <div class="mc-res2-sub">${escapeHtml(subtitle)}</div>
+                </div>
+                <div class="mc-res2-kbd">${idx===0 ? 'Entrée' : ''}</div>
+              </button>
+            `;
+          }).join('');
+
+      mcSearchCache.set(q, html);
+      resEl.innerHTML = html;
+
+      // clic résultat (delegation)
+      resEl.onclick = (e)=>{
+        const btn = e.target.closest('.mc-res2-item[data-lat]');
+        if(!btn) return;
+        mcSelectLocation(btn.dataset.lat, btn.dataset.lon, btn.dataset.title);
+      };
+
+      loader.style.display = 'none';
+    }catch(err){
+      if(err?.name === 'AbortError') return;
+      loader.style.display = 'none';
+      resEl.innerHTML = `<div class="mc-res2-item mc-res2-muted" style="color:var(--rouge)">Erreur réseau</div>`;
+    }
+  }, 250);
 }
 
 function mcSelectLocation(lat, lon, addressSelected) {
