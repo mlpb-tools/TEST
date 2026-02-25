@@ -5,7 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LS4YOU — Comprendre le Territoire · Mission Locale Pays Basque</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet
+  /* ===== MA CARTE LAYOUT ===== */
+
+.mc-container{
+  display:flex;
+  height:100%;
+  position:relative;
+}
+
+.mc-sidebar{
+  width:380px;
+  background:white;
+  border-right:1px solid #e5e5e5;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  z-index:5;
+}
+
+.mc-view{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+.mc-header{
+  padding:18px;
+  border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.mc-body{
+  padding:18px;
+  overflow-y:auto;
+  flex:1;
+}
+
+#map{
+  flex:1;
+}
+
+/* ===== BOUTONS ===== */
+
+.mc-btn{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  font-weight:800;
+  border:none;
+  cursor:pointer;
+  margin-bottom:16px;
+}
+
+.mc-btn-blue{
+  background:var(--bleu);
+  color:white;
+}
+
+.mc-btn-green{
+  background:var(--vert);
+  color:white;
+}
+
+/* ===== MINI CONSIGNES ===== */
+
+.mc-consignes-mini{
+  margin:14px 0 18px;
+  padding:14px;
+  border:2px solid #e5e5e5;
+  border-radius:14px;
+  background:white;
+}
+
+.mc-consignes-mini-title{
+  font-weight:900;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.mc-consignes-mini-grid{
+  display:grid;
+  gap:8px;
+}
+
+.mc-mini-card{
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:12px;
+  border-left:6px solid;
+}
+
+.mc-mini-card.rose{border-left-color:var(--rose);background:#fff0f4}
+.mc-mini-card.bleu{border-left-color:var(--bleu);background:#eff6ff}
+.mc-mini-card.vert{border-left-color:var(--vert);background:#f7fee7}
+.mc-mini-card.orange{border-left-color:var(--orange);background:#fff7ed}
+
+.mc-mini-hint{
+  margin-top:10px;
+  font-size:12px;
+  font-weight:700;
+  color:#555;
+}
 <style>
 :root{
   --vert:#95c11f;
@@ -2538,6 +2642,6 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeAddPin();
 });
 </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 </body>
 </html>
